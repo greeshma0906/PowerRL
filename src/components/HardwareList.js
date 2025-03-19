@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 
-const hardwareData = [
+const defaultHardware = [
   { type: "CPU", name: "Intel i7 12600K", alternatives: 2 },
   { type: "GPU", name: "NVIDIA RTX 3080", alternatives: 5 },
   { type: "RAM", name: "32GB DDR4", alternatives: 3 },
 ];
 
 function HardwareList() {
-  const [hardware, setHardware] = useState(hardwareData);
+  const [hardware, setHardware] = useState(defaultHardware);
+
+  useEffect(() => {
+    setHardware(defaultHardware);
+  }, []); // Reset when component re-renders
 
   const handleChange = (index, value) => {
     setHardware((prev) =>
