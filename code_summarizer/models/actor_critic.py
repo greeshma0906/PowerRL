@@ -76,3 +76,36 @@ class CriticNetwork(nn.Module):
         value = self.fc(context_vector)  # (batch_size, 1)
 
         return value  # Return V(s)
+
+def compute_loss(actor, critic, state, decoder_input, actions, rewards):
+    """
+    Computes the loss for Actor and Critic networks.
+    
+    Args:
+        actor (nn.Module): Actor network
+        critic (nn.Module): Critic network
+        state (Tensor): Input state (batch_size, seq_len, input_dim)
+        decoder_input (Tensor): Decoder input (batch_size, 1, hidden_dim)
+        actions (Tensor): Actions taken by the policy (batch_size,)
+        rewards (Tensor): Reward obtained for each action (batch_size,)
+        
+    Returns:
+        actor_loss (Tensor): Policy gradient loss for the actor
+        critic_loss (Tensor): Value function loss for the critic
+    """
+    # Forward pass
+    action_logits, _ = actor(state, decoder_input)
+    value = critic(state).squeeze(1)  # (batch_size,)
+
+    # Compute log probabilities of selected actions
+    log_probs = F.log_softmax(action_logits, dim=-1)  # (batch_size, output_dim)
+    selected_log_probs = log_probs.gather(1, actions.unsqueeze(1)).squeeze(1)  # Log π(a_t | s_t)
+
+    # Compute advantage (A_t = R_t - V(s_t))
+    advantage = rewards - value.detach()
+
+    # Compute losses
+    actor_loss = -torch.mean(selected_log_probs * advantage)  # Policy gradient loss
+    critic_loss = F.mse_loss(value, rewards)  # Mean Squared Error for critic
+
+    return actor_loss, critic_loss
