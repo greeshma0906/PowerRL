@@ -1,0 +1,58 @@
+/* Overall Container */
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Each Section Box */
+  .box {
+    width: 45%;
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    border: 2px solid #ccc;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  /* Hardware List Items */
+  .hardware-item {
+    margin-top: 10px;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Buttons */
+  button {
+    background: #007bff;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  /* Responsive Layout for Small Screens */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .box {
+      width: 90%;
+      margin-bottom: 20px;
+    }
+  }
+  
