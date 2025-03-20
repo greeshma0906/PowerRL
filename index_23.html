@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RL Energy Consumption</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .graph {
+            grid-column: span 2;
+        }
+        .map-placeholder {
+            background: #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #555;
+        }
+        .hardware ul {
+            list-style: none;
+            padding: 0;
+        }
+        .hardware li {
+            background: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section graph">
+            <h2>Your Model's Energy Consumption</h2>
+            <canvas id="energyChart"></canvas>
+        </div>
+        
+        <div class="section calculations">
+            <h2>How Energy Consumption is Calculated</h2>
+            <p>Formula and explanation go here...</p>
+        </div>
+        
+        <div class="section region">
+            <h2>Your Region's Energy Intensity</h2>
+            <div class="map-placeholder">[Map Placeholder]</div>
+        </div>
+        
+        <div class="section hardware">
+            <h2>Your Hardware</h2>
+            <ul>
+                <li>CPU - Intel i7 2600K</li>
+                <li>GPU - GTX 1080 Ti (x4)</li>
+                <li>GPU - RTX 2080 Ti (x8)</li>
+            </ul>
+        </div>
+        
+        <div class="section extra-box">
+            <h2>Additional Data</h2>
+            <p>More details can go here...</p>
+        </div>
+    </div>
+</body>
+</html>
