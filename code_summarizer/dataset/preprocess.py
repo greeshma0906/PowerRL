@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # import os
 # import torch
 # import h5py
@@ -55,8 +54,6 @@
 #     h5f.create_dataset("X", data=torch.nn.utils.rnn.pad_sequence(X_tensor, batch_first=True).numpy())
 #     h5f.create_dataset("Y", data=torch.nn.utils.rnn.pad_sequence(Y_tensor, batch_first=True).numpy())
 
-=======
->>>>>>> 87ed076dc5c2753950a28572b8ae8381fbc865b4
 import os
 import torch
 import h5py
