@@ -26,6 +26,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 power_rl/
+code_summarizer/dataset/parallel_desc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
