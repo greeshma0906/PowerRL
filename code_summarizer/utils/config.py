@@ -1,3 +1,4 @@
+import torch
 class Config:
     # Data parameters
     max_vocab_size = 50000
@@ -7,7 +8,11 @@ class Config:
     embed_size = 256
     hidden_size = 512
     num_layers = 2
+    input_dim = 2222
+    output_dim = 2222
+    hidden_dim = 2332
     dropout = 0.3
+    max_summary_length = 100
     
     # Training parameters
     batch_size = 64
