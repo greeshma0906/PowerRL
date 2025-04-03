@@ -198,7 +198,7 @@ class FlaskServerThread(Thread):
         CORS(app)
         @app.route("/")
         def main():
-            return "EnergyVis backend is tracking..."
+            return "PowerRL backend is tracking..."
        
         @app.route("/pause")
         def pause():
