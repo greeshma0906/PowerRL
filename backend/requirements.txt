@@ -1,1 +1,9 @@
 -e .
+geocoder
+py-cpuinfo
+pynvml
+flask_cors
+flask
+psutil
+torch
+torchvision
