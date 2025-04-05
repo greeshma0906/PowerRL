@@ -74,9 +74,17 @@ with open(desc_path, "r", encoding="ISO-8859-1") as f:
     desc_text = f.read().strip()
 
 # 2️⃣ Split into functions using `\n\n` separator
-decl_data = decl_text.split("\n\n")
-body_data = body_text.split("\n\n")
-desc_data = desc_text.split("\n\n")
+decl_data = decl_text.split("\n")
+print(len(decl_data))
+body_data = body_text.split("\n")
+print(len(body_data))
+desc_data = desc_text.split("\n")
+print(len(desc_data))
+
+MAX_SAMPLES = 4000
+decl_data = decl_data[:MAX_SAMPLES]
+body_data = body_data[:MAX_SAMPLES]
+desc_data = desc_data[:MAX_SAMPLES]
 
 # Ensure alignment
 assert len(decl_data) == len(body_data) == len(desc_data), "Data misalignment detected!"
@@ -99,8 +107,11 @@ X_encoded = [sp.encode_as_ids(func) for func in full_functions]
 Y_encoded = [sp.encode_as_ids(desc) for desc in desc_data]
 
 # Debugging check: Make sure encoded values are integers
-print(X_encoded[:5])  # Should be lists of integers
-print(Y_encoded[:5])  # Should be lists of integers
+# Print the first 5 examples from X_encoded and Y_encoded along with their lengths
+for i in range(5):
+    print(f"X[{i}] (len={len(X_encoded[i])}): {X_encoded[i]}")
+    print(f"Y[{i}] (len={len(Y_encoded[i])}): {Y_encoded[i]}")
+    print("-" * 50)
 
 # Convert to PyTorch tensors
 X_tensor = [torch.tensor(seq, dtype=torch.long) for seq in X_encoded]

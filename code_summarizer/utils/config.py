@@ -7,15 +7,15 @@ class Config:
     # Model parameters
     embed_size = 256
     hidden_size = 512
-    num_layers = 2
-    input_dim = 2222
-    output_dim = 2222
-    hidden_dim = 2332
+    num_layers = 1
+    input_dim = 8000
+    output_dim = 512
+    hidden_dim = 64
     dropout = 0.3
     max_summary_length = 100
     
     # Training parameters
-    batch_size = 64
+    batch_size = 8
     learning_rate = 0.001
     num_epochs = 15
     clip_grad = 5.0
@@ -27,7 +27,8 @@ class Config:
     
     # Paths
     # data_path = 'data/'
-    # model_path = 'models/checkpoints/'
+    model_path = 'models/checkpoints/'
+   
     
     # Misc
     seed = 42
