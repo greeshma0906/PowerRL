@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,123 @@
   to {
     transform: rotate(360deg);
   }
+} */
+/*.App {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+}
+
+.left-panel {
+  margin-right: 20px;
+}*/
+/* General styling */
+ /* General styling */
+:root {
+  --primary-color: #FF9800; /* Orange */
+  --secondary-color: #FFF3E0; /* Light Orange */
+  --text-color: #333;
+  --border-color: #FFCC80; /* Light Orange Border */
+  --highlight-green: #4CAF50;
+  --highlight-yellow: #FFEB3B;
+  --highlight-pink: #FF4081;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  background-color: var(--secondary-color);
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styling */
+.header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header p {
+  margin-top: 5px;
+}
+
+/* Main content layout */
+.content {
+  display: flex; /* Use flexbox for horizontal alignment */
+  justify-content: space-between; /* Even spacing between panels */
+  gap: 20px; /* Add spacing between panels */
+}
+
+.left-panel,
+.right-panel {
+  flex: 1; /* Panels take equal width */
+}
+
+/* Left panel styling */
+.left-panel {
+  display: flex;
+  flex-direction: column; /* Stack items vertically within the left panel */
+}
+
+/* Right panel styling */
+.right-panel {
+  display: flex;
+  flex-direction: column; /* Stack items vertically within the right panel */
+}
+
+/* Notification bar */
+.notification-bar {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+}
+
+.notification-bar i {
+  margin-right: 10px;
+}
+
+.reset-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+}
+
+/* Tabs styling */
+.model-tabs {
+  display: flex;
+}
+
+.model-tabs button {
+  padding: 10px;
+}
+
+.model-tabs button.active {
+  background-color: var(--primary-color);
 }
