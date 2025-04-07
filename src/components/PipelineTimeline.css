@@ -1,0 +1,32 @@
+.pipeline-timeline {
+    background-color: #fff3e0; /* Light orange */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffcc80; /* Light orange border */
+  }
+  
+  .pipeline-timeline h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .timeline-item {
+    margin-bottom: 15px;
+  }
+  
+  .stage-name {
+    font-weight: bold;
+    color: #ff9800; /* Orange */
+  }
+  
+  .stage-details {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .stage-details span {
+    display: block;
+  }
+  
