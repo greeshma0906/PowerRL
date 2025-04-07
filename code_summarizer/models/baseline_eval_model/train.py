@@ -7,19 +7,20 @@ from model.encoder_decoder import Encoder, Decoder
 from dataloader import get_dataloader
 
 # Set device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device=torch.device("cpu")
 print("Using device:", device)
 
 # Hyperparameters
 INPUT_DIM = 8000
 OUTPUT_DIM = 8000
 EMBED_SIZE = 256
-HIDDEN_SIZE = 512
+HIDDEN_SIZE = 64
 NUM_LAYERS = 1
 DROPOUT = 0.5
 LEARNING_RATE = 0.00005
 EPOCHS = 10
-BATCH_SIZE = 32
+BATCH_SIZE = 8
 PAD_IDX = 0  
 
 # Dataset Path
@@ -50,7 +51,7 @@ for epoch in range(EPOCHS):
         output = model(src, trg)
 
         # **Fix: Ensure output requires gradient**
-        output.requires_grad = True
+        #output.requires_grad = True
 
         # **Fix: Shape output & target correctly**
         output = output[1:].reshape(-1, OUTPUT_DIM)
