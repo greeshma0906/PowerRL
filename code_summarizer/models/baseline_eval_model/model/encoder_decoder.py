@@ -18,7 +18,7 @@ class Encoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, src):
-        max_seq_len = 8000
+        max_seq_len = 100
         x = src[:, :max_seq_len].long().to(self.device)
         #print("Input shape:", x.shape)  # [batch, seq_len]
 
