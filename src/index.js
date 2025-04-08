@@ -27,8 +27,5 @@ root.render(
     <App />
   </React.StrictMode>
 );
-<<<<<<< HEAD
-=======
 
 reportWebVitals();
->>>>>>> 39af96af84bf6ba0db4b9ffb5c2521f462be9727
