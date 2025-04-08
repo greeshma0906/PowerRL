@@ -1,0 +1,231 @@
+/* .hardware-section {
+    background-color:#FFF3E0;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #FF9800;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .hardware-section h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .hardware-list {
+    margin-bottom: 20px;
+  }
+  
+  .hardware-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .hardware-icon {
+    margin-right: 15px;
+    font-size: 24px;
+  }
+  
+  .hardware-details {
+    flex: 1;
+  }
+  
+  .hardware-name {
+    font-weight: bold;
+  }
+  
+  .hardware-quantity {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .alternative-badge {
+    background-color: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 0.8em;
+  }
+  
+  .quantity-controls {
+    display: flex;
+  }
+  
+  .quantity-btn {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .quantity-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .add-hardware h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+  
+  .add-hardware-controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .hardware-select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #FF9800;
+    border-radius: 4px;
+  }
+  
+  .add-btn {
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .add-btn:hover:not(:disabled) {
+    background-color: #F57C00;
+  }
+   */
+   .hardware-section {
+    background-color: #FFF3E0;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #FF9800;
+    margin-top: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .hardware-section h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.4em;
+  }
+  
+  .hardware-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .hardware-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  
+  .hardware-icon {
+    font-size: 28px;
+    margin-right: 16px;
+  }
+  
+  .hardware-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .hardware-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #222;
+  }
+  
+  .hardware-quantity {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 4px;
+  }
+  
+  .alternative-badge {
+    background-color: #FFE0B2;
+    color: #333;
+    padding: 3px 6px;
+    border-radius: 6px;
+    margin-left: 10px;
+    font-size: 0.8em;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .quantity-btn {
+    width: 32px;
+    height: 32px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .quantity-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .add-hardware h4 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+  
+  .add-hardware-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .hardware-select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #FF9800;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  
+  .add-btn {
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .add-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .add-btn:hover:not(:disabled) {
+    background-color: #F57C00;
+  }
+  
