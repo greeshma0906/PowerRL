@@ -12,7 +12,7 @@ class Config:
     output_dim = 512
     hidden_dim = 64
     dropout = 0.3
-    max_summary_length = 100
+    max_summary_length = 1384
     
     # Training parameters
     batch_size = 8

@@ -52,6 +52,44 @@ class ActorNetwork(nn.Module):
     def get_action_embedding(self,action):
         action_embedding = self.embedding(action)
         return action_embedding
+    def predict(self, zz, max_length):
+        self.eval()  # Set to evaluation mode
+
+        batch_size = zz.size(0)
+        with torch.no_grad():
+            zz = zz[:, :8000].long()
+            embedded = self.embedding(zz).float()
+
+            encoder_outputs, (h_n, c_n) = self.encoder(embedded)
+
+            attn_scores = self.U_attn(torch.tanh(self.W_attn(encoder_outputs)))
+            attn_weights = F.softmax(attn_scores, dim=1)
+            context_vector = torch.sum(attn_weights * encoder_outputs, dim=1, keepdim=True)  # shape: [batch, 1, hidden*2]
+
+            if h_n.shape[0] == 2:  # bidirectional
+                h_n = h_n.view(2, batch_size, -1).mean(dim=0, keepdim=True)  # shape: [1, batch, hidden]
+                c_n = c_n.view(2, batch_size, -1).mean(dim=0, keepdim=True)
+
+            outputs = []
+
+            decoder_input = context_vector  # start decoding from context
+
+            for _ in range(max_length):
+                decoder_output, (h_n, c_n) = self.decoder(decoder_input, (h_n, c_n))  # shape: [batch, 1, hidden]
+                logits = self.fc(decoder_output.squeeze(1))  # shape: [batch, output_dim]
+                predicted_tokens = torch.argmax(logits, dim=-1)  # shape: [batch]
+
+                outputs.append(predicted_tokens.unsqueeze(1))  # accumulate predictions
+
+                # Next decoder input: get embedding of predicted tokens
+                token_embed = self.embedding(predicted_tokens).unsqueeze(1)  # [batch, 1, embed_dim]
+                decoder_input = token_embed  # use predicted token as next input
+
+            # Stack outputs to shape: [batch, max_length]
+            output_sequences = torch.cat(outputs, dim=1)
+
+        return output_sequences  # each row is a sequence of predicted tokens
+
 
 
 class CriticNetwork(nn.Module):
