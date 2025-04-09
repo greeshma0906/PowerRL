@@ -3,7 +3,6 @@
 
 As the scale and complexity of AI models continue to grow, so does their **environmental footprint**—particularly the **power consumed** during training and inference. **PowerRL** contributes to the **Green AI** movement by providing a visual and programmatic framework to evaluate not just model performance, but also the **energy cost** associated with achieving it.
 
----
 
 ##  Key Features
 
@@ -11,24 +10,21 @@ As the scale and complexity of AI models continue to grow, so does their **envir
 - Analyze energy usage across RL and non-RL models.
 - Visualize consumption trends over time.
 
----
 
 ## Running PowerRL Locally
 
-### 1. Clone the Repository
+###  Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/PowerRL.git
 cd PowerRL
 ```
----
 
-## Frontend Setup
+### Frontend Setup
 
 The frontend is a lightweight React application to visualize energy consumption trends and metrics.
 
 ```bash
-cd frontend
 npm install
 npm start
 ```
@@ -44,10 +40,8 @@ Open that link in your browser to access the PowerRL frontend interface.
 You’ll be able to visualize tracked energy metrics as they are received from the backend.
 
 
----
 
-
-##  Backend Setup
+###  Backend Setup
 
 The backend module is responsible for monitoring energy consumption and generating real-time metrics that are sent to the frontend.
 
