@@ -1,15 +1,17 @@
 import torch
 #from your_model_folder.baseline import BaselineModel
-from your_dataloader import test_dataloader, tokenizer
+#from your_dataloader import test_dataloader, tokenizer
 import sys
+import h5py
+import os
 sys.path.append(os.path.abspath('../..'))
 from utils.metrics import compute_bleu,compute_rouge
 from utils.config import Config
 from models.deep_rl_summarization.actor_critic import ActorNetwork
 from torch.utils.data import DataLoader,random_split
+from data.custom_dataset import CustomDataset
 
-
-def evaluate_model(model, dataloader, tokenizer, device):
+def evaluate_model(model, dataloader, device):
     model.eval()
     bleu_scores = []
     rouge_1_scores = []
@@ -21,7 +23,7 @@ def evaluate_model(model, dataloader, tokenizer, device):
             states = states.to(device).float()
 
             # Predict summaries
-            predictions = model.predict(states)  # should return token indices or decoded tokens
+            predictions = model.predict(states,Config.max_summary_length)  # should return token indices or decoded tokens
 
             for i in range(len(predictions)):
                 # Tokenize reference and prediction if needed
@@ -48,7 +50,7 @@ def evaluate_model(model, dataloader, tokenizer, device):
     return results
 
 if __name__ == "__main__":
-    device = config.device  # or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = Config.device  # or torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dataset = CustomDataset("../../dataset/processed_data.h5")  # Replace with your actual dataset path
     with h5py.File("../../dataset/processed_data.h5", "r") as f:
         print("Keys in file:", list(f.keys()))
@@ -60,19 +62,19 @@ if __name__ == "__main__":
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
     # Loaders
-    test_dataloader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=False)
+    test_dataloader = DataLoader(test_dataset, batch_size=Config.batch_size, shuffle=False)
 
     # Initialize your models
     #baseline_model = BaselineModel().to(device)
-    deep_rl_model = ActorNetwork().to(device)
+    deep_rl_model = ActorNetwork(Config.input_dim,512, 256, Config.output_dim, Config.num_layers).to(Config.device)
 
     # Load model weights if needed
     #baseline_model.load_state_dict(torch.load("path/to/baseline_model.pth", map_location=device))
     deep_rl_model.load_state_dict(torch.load("checkpoints/final_actor.pth", map_location=device))
 
     # Evaluate
-    baseline_results = evaluate_model(baseline_model, test_dataloader, tokenizer, device)
-    deep_rl_results = evaluate_model(deep_rl_model, test_dataloader, tokenizer, device)
+    #baseline_results = evaluate_model(baseline_model, test_dataloader, tokenizer, device)
+    deep_rl_results = evaluate_model(deep_rl_model, test_dataloader, device)
 
     print("Baseline Model Evaluation:")
     for k, v in baseline_results.items():
