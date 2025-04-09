@@ -11,13 +11,9 @@ class ActorNetwork(nn.Module):
        
         self.encoder = nn.LSTM(embedding_dim, hidden_dim, num_layers, batch_first=True, bidirectional=True)
 
-        # Attention Mechanism
         self.W_attn = nn.Linear(hidden_dim *2, hidden_dim)
         self.U_attn = nn.Linear(hidden_dim, 1)
-        # Decoder (LSTM for sequence prediction)
         self.decoder = nn.LSTM(hidden_dim *2, hidden_dim, num_layers, batch_first=True)
-
-        # Output Layer (Action Distribution)
         self.fc = nn.Linear(hidden_dim, output_dim)
     
     def forward(self, x, decoder_input):
@@ -29,20 +25,18 @@ class ActorNetwork(nn.Module):
         x = x.float()
         encoder_outputs, (h_n, c_n) = self.encoder(x)
 
-        # Compute attention scores
         attn_scores = self.U_attn(torch.tanh(self.W_attn(encoder_outputs)))  
         attn_weights = F.softmax(attn_scores, dim=1)  
 
        
         context_vector = torch.sum(attn_weights * encoder_outputs, dim=1, keepdim=True) 
          
-        if h_n.shape[0] == 2:  # Means bidirectional=True
+        if h_n.shape[0] == 2:  
             h_n = h_n.mean(dim=0, keepdim=True) 
             c_n = c_n.mean(dim=0, keepdim=True) 
        
         decoder_output, _ = self.decoder(context_vector, (h_n, c_n))
 
-        # Compute action logits
         action_logits = self.fc(decoder_output.squeeze(1))  
         print(f"action_logit shape: {action_logits.shape}")
 
@@ -53,8 +47,7 @@ class ActorNetwork(nn.Module):
         action_embedding = self.embedding(action)
         return action_embedding
     def predict(self, zz, max_length):
-        self.eval()  # Set to evaluation mode
-
+        self.eval()  
         batch_size = zz.size(0)
         with torch.no_grad():
             zz = zz[:, :8000].long()
@@ -64,31 +57,30 @@ class ActorNetwork(nn.Module):
 
             attn_scores = self.U_attn(torch.tanh(self.W_attn(encoder_outputs)))
             attn_weights = F.softmax(attn_scores, dim=1)
-            context_vector = torch.sum(attn_weights * encoder_outputs, dim=1, keepdim=True)  # shape: [batch, 1, hidden*2]
+            context_vector = torch.sum(attn_weights * encoder_outputs, dim=1, keepdim=True) 
 
             if h_n.shape[0] == 2:  # bidirectional
-                h_n = h_n.view(2, batch_size, -1).mean(dim=0, keepdim=True)  # shape: [1, batch, hidden]
+                h_n = h_n.view(2, batch_size, -1).mean(dim=0, keepdim=True)  
                 c_n = c_n.view(2, batch_size, -1).mean(dim=0, keepdim=True)
 
             outputs = []
 
-            decoder_input = context_vector  # start decoding from context
-
+            decoder_input = context_vector 
             for _ in range(max_length):
-                decoder_output, (h_n, c_n) = self.decoder(decoder_input, (h_n, c_n))  # shape: [batch, 1, hidden]
-                logits = self.fc(decoder_output.squeeze(1))  # shape: [batch, output_dim]
-                predicted_tokens = torch.argmax(logits, dim=-1)  # shape: [batch]
+                decoder_output, (h_n, c_n) = self.decoder(decoder_input, (h_n, c_n))  
+                logits = self.fc(decoder_output.squeeze(1))  
+                predicted_tokens = torch.argmax(logits, dim=-1)  
 
-                outputs.append(predicted_tokens.unsqueeze(1))  # accumulate predictions
+                outputs.append(predicted_tokens.unsqueeze(1)) 
 
-                # Next decoder input: get embedding of predicted tokens
-                token_embed = self.embedding(predicted_tokens).unsqueeze(1)  # [batch, 1, embed_dim]
-                decoder_input = token_embed  # use predicted token as next input
+               
+                token_embed = self.embedding(predicted_tokens).unsqueeze(1) 
+                decoder_input = token_embed  
 
-            # Stack outputs to shape: [batch, max_length]
+         
             output_sequences = torch.cat(outputs, dim=1)
 
-        return output_sequences  # each row is a sequence of predicted tokens
+        return output_sequences  
 
 
 

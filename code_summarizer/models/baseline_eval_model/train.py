@@ -7,7 +7,6 @@ from model.seq2seq import Seq2Seq
 from model.encoder_decoder import Encoder, Decoder
 from dataloader import get_dataloader
 
-# Set device
 print("CUDA Available:", torch.cuda.is_available())
 print("CUDA Device Count:", torch.cuda.device_count())
 
@@ -30,26 +29,20 @@ EPOCHS = 10
 BATCH_SIZE = 8
 PAD_IDX = 0
 
-# Dataset Path
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../../dataset/processed_data.h5")
 
-# Initialize Model
 encoder = Encoder(INPUT_DIM, EMBED_SIZE, HIDDEN_SIZE, NUM_LAYERS, DROPOUT, device).to(device)
 decoder = Decoder(OUTPUT_DIM, EMBED_SIZE, HIDDEN_SIZE, NUM_LAYERS, DROPOUT, device).to(device)
 model = Seq2Seq(encoder, decoder, device).to(device)
 
-# Optimizer & Loss Function
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
 
-# Load Dataset
 dataloader = get_dataloader(DATA_PATH, batch_size=BATCH_SIZE)
 
-# Checkpoint Path
 CHECKPOINT_PATH = "checkpoints/"
 os.makedirs(CHECKPOINT_PATH, exist_ok=True)
 
-# Resume logic
 start_epoch = 0
 checkpoint_files = [f for f in os.listdir(CHECKPOINT_PATH) if f.startswith("checkpoint_epoch")]
 if checkpoint_files:
@@ -64,7 +57,6 @@ if checkpoint_files:
 else:
     print("No checkpoint found. Starting from scratch.")
 
-# Training Loop
 for epoch in range(start_epoch, EPOCHS):
     start_time = time.time()
     model.train()
@@ -92,7 +84,6 @@ for epoch in range(start_epoch, EPOCHS):
     elapsed_time = time.time() - start_time
     print(f"Epoch {epoch+1}/{EPOCHS} | Loss: {epoch_loss / len(dataloader):.4f} | Time: {elapsed_time:.2f}s")
 
-    # Save checkpoint
     torch.save({
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -100,6 +91,5 @@ for epoch in range(start_epoch, EPOCHS):
     }, os.path.join(CHECKPOINT_PATH, f"checkpoint_epoch{epoch+1}.pth"))
     print(f"Checkpoint saved at epoch {epoch+1}")
 
-# Save final model
 torch.save(model.state_dict(), "saved_baseline_model.pth")
 print("Training complete! Final model saved as 'saved_baseline_model.pth'.")

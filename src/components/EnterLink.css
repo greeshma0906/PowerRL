@@ -1,4 +1,4 @@
-/* Container styling */
+
 .enter-link-container {
     margin: 20px 0;
     padding: 15px;
@@ -7,7 +7,7 @@
     border: 1px solid #ffcc80; /* Light orange border */
   }
   
-  /* Heading styling */
+
   .enter-link-heading {
     font-size: 1.2rem;
     font-weight: bold;
@@ -15,35 +15,35 @@
     margin-bottom: 10px;
   }
   
-  /* Bar styling */
+
   .enter-link-bar {
     display: flex;
     align-items: center;
   }
   
-  /* Input field styling */
+
   .link-input {
-    flex: 1; /* Takes up all available space */
+    flex: 1; 
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #ffcc80; /* Light orange border */
+    border: 1px solid #ffcc80;
     border-radius: 4px;
   }
   
-  /* Button styling */
+ 
   .measure-button {
     margin-left: 10px;
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
     color: white;
-    background-color: #ff9800; /* Same orange as header */
+    background-color: #ff9800; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .measure-button:hover {
-    background-color: #e68900; /* Slightly darker orange on hover */
+    background-color: #e68900; 
   }
   

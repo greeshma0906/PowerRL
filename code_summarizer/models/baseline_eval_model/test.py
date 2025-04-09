@@ -15,31 +15,27 @@ NUM_LAYERS = 2
 DROPOUT = 0.5
 MODEL_PATH = "saved_baseline_model.pth"
 
-# Initialize Model
 encoder = Encoder(INPUT_DIM, EMBED_SIZE, HIDDEN_SIZE, NUM_LAYERS, DROPOUT).to(device)
 decoder = Decoder(OUTPUT_DIM, EMBED_SIZE, HIDDEN_SIZE, NUM_LAYERS, DROPOUT).to(device)
 model = Seq2Seq(encoder, decoder, device).to(device)
 
-# Load Trained Weights
 model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 model.eval()
 
-# Example Test Data
 source_texts = ["def multiply(a, b): return a * b"]
 target_texts = ["multiplies two numbers"]
 source_vocab = {"<pad>": 0, "<unk>": 1, "def": 2, "return": 3}
 target_vocab = {"<pad>": 0, "<unk>": 1, "multiplies": 2}
 
-# Load Data
 dataloader = get_dataloader(source_texts, target_texts, source_vocab, target_vocab, batch_size=1)
 
-# Testing
+
 with torch.no_grad():
     for src, src_lengths, trg in dataloader:
         src = src.to(device)
         trg = trg.to(device)
 
-        output = model(src, src_lengths, trg, 0)  # No teacher forcing
-        predicted_tokens = output.argmax(dim=2)  # Get highest probability tokens
+        output = model(src, src_lengths, trg, 0) 
+        predicted_tokens = output.argmax(dim=2)  
         
-        print("Predicted:", predicted_tokens.tolist())  # Convert to list for readability
+        print("Predicted:", predicted_tokens.tolist())  

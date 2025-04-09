@@ -1,8 +1,8 @@
 .pipeline-timeline {
-    background-color: #fff3e0; /* Light orange */
+    background-color: #fff3e0; 
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #ffcc80; /* Light orange border */
+    border: 1px solid #ffcc80; 
   }
   
   .pipeline-timeline h3 {
@@ -18,7 +18,7 @@
   
   .stage-name {
     font-weight: bold;
-    color: #ff9800; /* Orange */
+    color: #ff9800; 
   }
   
   .stage-details {
