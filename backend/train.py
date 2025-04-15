@@ -40,6 +40,7 @@ def train_model():
 
     for epoch in range(max_epochs):
         tracker.epoch_start()
+       # print(tracker.logger)
 
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
@@ -50,6 +51,7 @@ def train_model():
             optimizer.step()
 
         tracker.epoch_end()
+        
         print(f"Epoch [{epoch+1}/{max_epochs}] completed.")
 
     tracker.stop()
