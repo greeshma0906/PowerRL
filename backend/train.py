@@ -49,7 +49,7 @@ def train_model():
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-
+        #print(f"Epoch {epoch+1} - CPU: {tracker._cpu.energy_epoch}, GPU: {tracker._gpu.energy_epoch}")
         tracker.epoch_end()
         
         print(f"Epoch [{epoch+1}/{max_epochs}] completed.")

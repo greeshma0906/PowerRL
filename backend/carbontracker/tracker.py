@@ -222,7 +222,7 @@ class CarbonTracker:
     def __init__(self,
                  epochs,
                  epochs_before_pred=1,
-                 monitor_epochs=1,
+                 monitor_epochs=10,
                  update_interval=10,
                  stop_and_confirm=False,
                  ignore_errors=False,
@@ -277,6 +277,7 @@ class CarbonTracker:
            
             self.tracker.epoch_start()
             self.epoch_counter += 1
+            print("epoch counter incremented")
         except Exception as e:
             self._handle_error(e)
 
