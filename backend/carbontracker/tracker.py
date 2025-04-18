@@ -222,7 +222,7 @@ class CarbonTracker:
     def __init__(self,
                  epochs,
                  epochs_before_pred=1,
-                 monitor_epochs=10,
+                 monitor_epochs=11,
                  update_interval=10,
                  stop_and_confirm=False,
                  ignore_errors=False,
