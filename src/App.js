@@ -13,9 +13,7 @@ function App() {
       <EnterLink />
       <div className="content">
         {/* Move ModelEmission inside EnterLink, do not put it here */}
-        <div className="right-panel">
-          <IndiaMap />
-        </div>
+        <div className="right-panel"></div>
       </div>
     </div>
   );

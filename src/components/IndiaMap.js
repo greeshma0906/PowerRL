@@ -8,15 +8,24 @@
 // const colorScale = d3
 //   .scaleLinear()
 //   .domain([0.0, 1.5]) // Adjust max value as needed
-//   .range(["#b3cde0", "#003366"]);
+//   .range(["#b3cde0", "#003366"]); // Light blue to dark blue
+
 // const IndiaMap = () => {
 //   const [geoData, setGeoData] = useState([]);
+//   const [selectedState, setSelectedState] = useState(null);
+//   const [selectedValue, setSelectedValue] = useState(null);
 
 //   useEffect(() => {
 //     fetch(geoUrl)
 //       .then((res) => res.json())
 //       .then((data) => setGeoData(data.features));
 //   }, []);
+
+//   const handleStateClick = (stateName) => {
+//     const value = indiaEnergyData[stateName];
+//     setSelectedState(stateName);
+//     setSelectedValue(value);
+//   };
 
 //   return (
 //     <div style={{ padding: 20 }}>
@@ -39,6 +48,7 @@
 //                   geography={geo}
 //                   fill={value !== undefined ? colorScale(value) : "#EEE"}
 //                   stroke="#FFF"
+//                   onClick={() => handleStateClick(stateName)} // Add click handler
 //                   style={{
 //                     default: { outline: "none" },
 //                     hover: { fill: "#ffa500", outline: "none" },
@@ -53,6 +63,14 @@
 //       <div style={{ textAlign: "center", marginTop: 10 }}>
 //         <small>Dark = High CO₂ intensity, Light = Low</small>
 //       </div>
+
+//       {/* Display the selected state's CO₂ intensity */}
+//       {selectedState && selectedValue !== null && (
+//         <div style={{ marginTop: 20, textAlign: "center" }}>
+//           <h3>State: {selectedState}</h3>
+//           <p>CO₂ Intensity: {selectedValue}  lb/kWh</p>
+//         </div>
+//       )}
 //     </div>
 //   );
 // };
@@ -71,7 +89,7 @@ const colorScale = d3
   .domain([0.0, 1.5]) // Adjust max value as needed
   .range(["#b3cde0", "#003366"]); // Light blue to dark blue
 
-const IndiaMap = () => {
+const IndiaMap = ({ averageEnergy }) => {
   const [geoData, setGeoData] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -109,7 +127,7 @@ const IndiaMap = () => {
                   geography={geo}
                   fill={value !== undefined ? colorScale(value) : "#EEE"}
                   stroke="#FFF"
-                  onClick={() => handleStateClick(stateName)} // Add click handler
+                  onClick={() => handleStateClick(stateName)}
                   style={{
                     default: { outline: "none" },
                     hover: { fill: "#ffa500", outline: "none" },
@@ -121,15 +139,25 @@ const IndiaMap = () => {
           }
         </Geographies>
       </ComposableMap>
+
       <div style={{ textAlign: "center", marginTop: 10 }}>
         <small>Dark = High CO₂ intensity, Light = Low</small>
       </div>
 
-      {/* Display the selected state's CO₂ intensity */}
+      {/* Display selected state's CO₂ intensity and total emissions */}
       {selectedState && selectedValue !== null && (
         <div style={{ marginTop: 20, textAlign: "center" }}>
           <h3>State: {selectedState}</h3>
-          <p>CO₂ Intensity: {selectedValue} kWh</p>
+          <p>CO₂ Intensity: {selectedValue} lb/kWh</p>
+          {averageEnergy !== undefined && (
+            <>
+              <p>Average Energy Used: {averageEnergy.toFixed(3)} kWh</p>
+              <p>
+                Estimated CO₂ Emissions:{" "}
+                {(averageEnergy * selectedValue).toFixed(3)} lbs
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
