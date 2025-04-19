@@ -38,7 +38,7 @@ class ActorNetwork(nn.Module):
         decoder_output, _ = self.decoder(context_vector, (h_n, c_n))
 
         action_logits = self.fc(decoder_output.squeeze(1))  
-        print(f"action_logit shape: {action_logits.shape}")
+        # print(f"action_logit shape: {action_logits.shape}")
 
         return action_logits, attn_weights  
     

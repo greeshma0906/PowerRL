@@ -10,6 +10,7 @@ import os
 import h5py
 
 # Add it to the system path
+sys.path.append(os.path.abspath('../../../backend'))
 sys.path.append(os.path.abspath('../..'))
 sys.path.append(os.path.abspath('../../utils'))
 sys.path.append(os.path.abspath('../../data'))
@@ -19,6 +20,7 @@ from config import Config
 from custom_dataset import CustomDataset
 from deep_rl_summarization.actor_critic import ActorNetwork 
 from deep_rl_summarization.actor_critic import CriticNetwork 
+from carbontracker.tracker import CarbonTracker
 
 
 def compute_bleu(reference, predicted):
@@ -40,8 +42,9 @@ def train_actor_critic(actor, critic, dataloader, config):
 
     actor_optimizer = optim.Adam(actor.parameters(), lr=config.actor_learning_rate)
     critic_optimizer = optim.Adam(critic.parameters(), lr=config.critic_learning_rate)
-
+    tracker = CarbonTracker(epochs=config.num_epochs)
     for epoch in range(config.num_epochs):
+        tracker.epoch_start()
         actor.train()
         critic.train()
         epoch_actor_loss = 0
@@ -102,11 +105,12 @@ def train_actor_critic(actor, critic, dataloader, config):
 
             epoch_actor_loss += actor_loss.item()
             epoch_critic_loss += critic_loss.item()
-
+            tracker.epoch_end()
        
         print(f'Epoch: {epoch + 1:02}')
         print(f'\tTrain Actor Loss: {epoch_actor_loss / len(dataloader):.3f}')
         print(f'\tTrain Critic Loss: {epoch_critic_loss / len(dataloader):.3f}')
+        tracker.stop()
 
         # Save models
         torch.save(actor.state_dict(), f"{config.model_path}/actor_model.pth")

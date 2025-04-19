@@ -70,7 +70,7 @@ function ModelEmissions({ chartData, title, isEpochData }) {
       x: {
         type: 'category',
         labels: isEpochData
-          ? ['1', '2', '4', '5', '6', '7', '9', '10'] // for epoch data
+          ? ['1', '2','3', '4', '5', '6', '7', '9', '10'] // for epoch data
           : undefined, // interval data uses default
         title: {
           display: true,

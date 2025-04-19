@@ -3,10 +3,13 @@ import torch.optim as optim
 import torch.nn as nn
 import os
 import time
+import sys
 from model.seq2seq import Seq2Seq
 from model.encoder_decoder import Encoder, Decoder
 from dataloader import get_dataloader
-
+backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../backend'))
+sys.path.append(backend_path)
+from carbontracker.tracker import CarbonTracker
 print("CUDA Available:", torch.cuda.is_available())
 print("CUDA Device Count:", torch.cuda.device_count())
 
@@ -56,9 +59,10 @@ if checkpoint_files:
     start_epoch = checkpoint["epoch"] + 1
 else:
     print("No checkpoint found. Starting from scratch.")
-
+tracker = CarbonTracker(epochs=EPOCHS)
 for epoch in range(start_epoch, EPOCHS):
     start_time = time.time()
+    tracker.epoch_start()
     model.train()
     epoch_loss = 0
 
@@ -77,11 +81,12 @@ for epoch in range(start_epoch, EPOCHS):
         optimizer.step()
 
         epoch_loss += loss.item()
-
         if i % 10 == 0:
             print(f"[Epoch {epoch+1} | Batch {i+1}/{len(dataloader)}] Batch Loss: {loss.item():.4f}")
 
     elapsed_time = time.time() - start_time
+    tracker.epoch_end()
+
     print(f"Epoch {epoch+1}/{EPOCHS} | Loss: {epoch_loss / len(dataloader):.4f} | Time: {elapsed_time:.2f}s")
 
     torch.save({
@@ -90,6 +95,6 @@ for epoch in range(start_epoch, EPOCHS):
         'optimizer_state_dict': optimizer.state_dict()
     }, os.path.join(CHECKPOINT_PATH, f"checkpoint_epoch{epoch+1}.pth"))
     print(f"Checkpoint saved at epoch {epoch+1}")
-
+tracker.stop()
 torch.save(model.state_dict(), "saved_baseline_model.pth")
 print("Training complete! Final model saved as 'saved_baseline_model.pth'.")

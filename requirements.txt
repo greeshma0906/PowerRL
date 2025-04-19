@@ -4,3 +4,17 @@ numpy
 tqdm
 nltk
 rouge
+sentencepiece
+geocoder
+py-cpuinfo
+pynvml
+flask_cors
+flask
+psutil
+torch
+torchvision
+h5py
+numpy
+tqdm
+nltk
+rouge

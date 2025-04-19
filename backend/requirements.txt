@@ -7,3 +7,9 @@ flask
 psutil
 torch
 torchvision
+h5py
+numpy
+tqdm
+nltk
+rouge
+
