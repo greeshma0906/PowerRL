@@ -157,42 +157,46 @@ function EnterLink() {
   }, [intervalId]);
 
   return (
-    <div className="enter-link-container">
-      <h3 className="enter-link-heading">
-        Enter the link to your RL pipeline:
-      </h3>
-      <div className="enter-link-bar">
-        <input
-          type="text"
-          placeholder="Paste your link here..."
-          className="link-input"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        <button className="measure-button" onClick={handleFetchData}>
-          Measure
-        </button>
+    <div className="enter-link-map-wrapper">
+      <div className="left-panel">
+        <h3 className="enter-link-heading">
+          Enter the link to your RL pipeline:
+        </h3>
+        <div className="enter-link-bar">
+          <input
+            type="text"
+            placeholder="Paste your link here..."
+            className="link-input"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+          <button className="measure-button" onClick={handleFetchData}>
+            Measure
+          </button>
+        </div>
+
+        {intervalData && (
+          <ModelEmissions
+            chartData={intervalData}
+            title="Interval Emissions (CO2 lbs)"
+            isEpochData={false}
+          />
+        )}
+        {epochData && (
+          <ModelEmissions
+            chartData={epochData}
+            title="Epoch Emissions (CO2 lbs)"
+            isEpochData={true}
+          />
+        )}
+
+        {hardwareData.length > 0 && (
+          <HardwareSection initialHardware={hardwareData} />
+        )}
       </div>
-
-      {intervalData && (
-        <ModelEmissions
-          chartData={intervalData}
-          title="Interval Emissions (CO2 lbs)"
-          isEpochData={false}
-        />
-      )}
-      {epochData && (
-        <ModelEmissions
-          chartData={epochData}
-          title="Epoch Emissions (CO2 lbs)"
-          isEpochData={true}
-        />
-      )}
-
-      {hardwareData.length > 0 && (
-        <HardwareSection initialHardware={hardwareData} />
-      )}
-      <IndiaMap averageEnergy={averageEnergy} />
+      <div className="right-panel">
+        <IndiaMap averageEnergy={averageEnergy} />
+      </div>
     </div>
   );
 }

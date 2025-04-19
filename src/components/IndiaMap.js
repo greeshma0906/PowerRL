@@ -125,13 +125,19 @@ const IndiaMap = ({ averageEnergy }) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={value !== undefined ? colorScale(value) : "#EEE"}
-                  stroke="#FFF"
                   onClick={() => handleStateClick(stateName)}
+                  fill={
+                    selectedState === stateName
+                      ? "#66c2a5" // selected
+                      : value !== undefined
+                      ? colorScale(value) // default color
+                      : "#EEE"
+                  }
+                  stroke="#FFF"
                   style={{
                     default: { outline: "none" },
-                    hover: { fill: "#ffa500", outline: "none" },
-                    pressed: { outline: "none" },
+                    hover: { fill: "#66c2a5", outline: "none" },
+                    pressed: { fill: "#66c2a5", outline: "none" },
                   }}
                 />
               );
