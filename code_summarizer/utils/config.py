@@ -27,7 +27,7 @@ class Config:
     
     # Paths
     # data_path = 'data/'
-    model_path = 'models/checkpoints/'
+    model_path = '../../models/checkpoints/'
    
     
     # Misc

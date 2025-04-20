@@ -121,6 +121,7 @@ def train_actor_critic(actor, critic, dataloader, config):
         tracker.stop()
 
         # Save models
+        print(os.getcwd())
         torch.save(actor.state_dict(), f"{config.model_path}/actor_model.pth")
         torch.save(critic.state_dict(), f"{config.model_path}/critic_model.pth")
 
