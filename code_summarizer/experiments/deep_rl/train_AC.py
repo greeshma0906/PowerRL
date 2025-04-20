@@ -39,6 +39,14 @@ def update_decoder_input(decoder_input, action_embedding):
 
 def train_actor_critic(actor, critic, dataloader, config):
     """Train the actor-critic model with BLEU-based rewards."""
+    print("CUDA Available:", torch.cuda.is_available())
+    print("CUDA Device Count:", torch.cuda.device_count())
+    if torch.cuda.is_available():
+            print("Current CUDA Device:", torch.cuda.current_device())
+            print("Device Name:", torch.cuda.get_device_name(torch.cuda.current_device()))
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Using device:", device)
 
     actor_optimizer = optim.Adam(actor.parameters(), lr=config.actor_learning_rate)
     critic_optimizer = optim.Adam(critic.parameters(), lr=config.critic_learning_rate)
@@ -105,7 +113,7 @@ def train_actor_critic(actor, critic, dataloader, config):
 
             epoch_actor_loss += actor_loss.item()
             epoch_critic_loss += critic_loss.item()
-            tracker.epoch_end()
+        tracker.epoch_end()
        
         print(f'Epoch: {epoch + 1:02}')
         print(f'\tTrain Actor Loss: {epoch_actor_loss / len(dataloader):.3f}')
@@ -121,6 +129,14 @@ def train_actor_critic(actor, critic, dataloader, config):
 if __name__ == "__main__":
     config = Config()
     # Load Dataset
+    print(config.model_path)
+    import os
+    if not os.path.exists(config.model_path):
+        print(f"❌ Directory {config.model_path} does not exist!")
+        os.makedirs(config.model_path, exist_ok=True)
+        print(f"✅ Created directory: {config.model_path}")
+    else:
+        print(f"✅ Directory {config.model_path} exists.")
     dataset = CustomDataset("../../dataset/processed_data.h5")  # Replace with your actual dataset path
     with h5py.File("../../dataset/processed_data.h5", "r") as f:
         print("Keys in file:", list(f.keys()))

@@ -81,7 +81,7 @@ print(len(body_data))
 desc_data = desc_text.split("\n")
 print(len(desc_data))
 
-MAX_SAMPLES = 7000
+MAX_SAMPLES = 500
 decl_data = decl_data[:MAX_SAMPLES]
 body_data = body_data[:MAX_SAMPLES]
 desc_data = desc_data[:MAX_SAMPLES]
