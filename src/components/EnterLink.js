@@ -38,15 +38,18 @@ function EnterLink() {
         const gpu = gpuEpoch[epoch] ?? 0;
         return cpu + gpu;
       });
+      console.log("Hi");
 
       const validEnergies = totalEnergyPerEpoch.filter(
         (v) => v !== null && !isNaN(v)
       );
       const totalEnergyUsed = validEnergies.reduce((a, b) => a + b, 0);
+      console.log(totalEnergyUsed);
       const avgEnergy =
         validEnergies.length > 0 ? totalEnergyUsed / validEnergies.length : 0;
+      console.log(avgEnergy);
 
-      setAverageEnergy(avgEnergy);
+      setAverageEnergy(Number(avgEnergy.toFixed(5)));
       // Set interval data (for graph 1)
       setIntervalData({
         labels: epochs,
@@ -134,6 +137,26 @@ function EnterLink() {
     }
   };
 
+  // New function to fetch data and allow download
+  const handleFetchDataAndDownload = async () => {
+    try {
+      // Fetch the energy stats from the server
+      const energyRes = await fetch(`${url}/energy-stats`);
+      const energyJson = await energyRes.json();
+
+      // Trigger the download of the fetched data as JSON
+      const dataToDownload = JSON.stringify(energyJson, null, 2); // Format the JSON data
+      const blob = new Blob([dataToDownload], { type: "application/json" });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "energyData.json"; // File name for the download
+      link.click();
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+
   const handleFetchData = async () => {
     if (intervalId) {
       clearInterval(intervalId);
@@ -145,6 +168,11 @@ function EnterLink() {
     // Periodic fetching every 5 seconds
     const newIntervalId = setInterval(fetchAndUpdateData, 5000);
     setIntervalId(newIntervalId);
+  };
+  const handleStopMonitoring = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
   };
 
   // Cleanup on unmount

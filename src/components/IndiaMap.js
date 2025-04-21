@@ -157,10 +157,10 @@ const IndiaMap = ({ averageEnergy }) => {
           <p>CO₂ Intensity: {selectedValue} lb/kWh</p>
           {averageEnergy !== undefined && (
             <>
-              <p>Average Energy Used: {averageEnergy.toFixed(3)} kWh</p>
+              <p>Average Energy Used: {averageEnergy.toFixed(5)} kWh</p>
               <p>
                 Estimated CO₂ Emissions:{" "}
-                {(averageEnergy * selectedValue).toFixed(3)} lbs
+                {(averageEnergy * selectedValue).toFixed(5)} lbs
               </p>
             </>
           )}
