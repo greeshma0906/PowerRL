@@ -10,7 +10,40 @@ As the scale and complexity of AI models continue to grow, so does their **envir
 - Analyze energy usage across RL and non-RL models.
 - Visualize consumption trends over time.
 
+## Folder structure
+Got it! Here's the **combined folder structure in Markdown format**, with each folder and file listed along with inline descriptions — just like you wanted earlier, but formatted for your `README.md`:
 
+
+
+##  Project Structure
+
+
+```plaintext
+PowerRL/
+│
+├── backend/                      # Backend for energy tracking (FastAPI)
+│   ├── carbontracker/             # Core logic for energy tracking     
+│   ├── requirements.txt          # Main backend dependencies
+├── code_summarizer/        # RL pipelines and model training
+│   └── data/ 
+│   ├── dataset/            # Processed dataset and loading logic
+│   └── models/             # Training scripts and architectures
+│   └── experiments/ 
+│
+├── public/                 # Static assets for frontend
+│   └── india-states.json   # CO₂ intensity map data
+│
+├── src/                    # React frontend app
+│   ├── App.js             
+│   ├── index.js            
+│   └── utils/              
+│   └── components/ 
+│
+├── README.md               # Project overview and setup
+├── package.json            # Frontend dependencies and scripts
+├── requirements.txt        # Backend Python dependencies
+
+```
 ## Running PowerRL Locally
 
 ###  Clone the Repository
