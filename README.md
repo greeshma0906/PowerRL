@@ -10,12 +10,8 @@ As the scale and complexity of AI models continue to grow, so does their **envir
 - Analyze energy usage across RL and non-RL models.
 - Visualize consumption trends over time.
 
-## Folder structure
-Got it! Here's the **combined folder structure in Markdown format**, with each folder and file listed along with inline descriptions — just like you wanted earlier, but formatted for your `README.md`:
 
-
-
-##  Project Structure
+##  Folder Structure
 
 
 ```plaintext
@@ -72,7 +68,9 @@ Open that link in your browser to access the PowerRL frontend interface.
 
 You’ll be able to visualize tracked energy metrics as they are received from the backend.
 
+### Code Summarizer
 
+For detailed instructions on setting up and using the Code Summarizer, please refer to the README file inside the [code_summarizer](./code_summarizer) folder.
 
 ###  Backend Setup
 
@@ -105,3 +103,6 @@ tracker.stop()
 ```
 
 When you run your training script, a local backend server URL will be printed. Paste that URL into the frontend interface to enable real-time tracking.
+
+
+
