@@ -20,6 +20,7 @@ import cpuinfo
 import time
 from flask import Flask,request
 import geocoder
+import socket
 
 bleu_log_data = []
 class CarbonTrackerThread(Thread):
@@ -193,6 +194,9 @@ class FlaskServerThread(Thread):
         self.training_paused = False
         self.energy_stats = None
         self.start()
+
+    
+    
        
     def run(self):
         app = Flask(__name__)
@@ -208,13 +212,17 @@ class FlaskServerThread(Thread):
        
         @app.route("/energy-stats")
         def get_energy_statistics():
+            if self.energy_stats is None:
+                return {"error": "Energy statistics not available yet"}, 500
             return self.energy_stats["component_energy"]
-       
+
         @app.route("/initial-setup")
         def get_initial_setup():
+            if self.energy_stats is None:
+                return {"error": "Energy statistics not available yet"}, 500
             return {
-                "component_names": self.energy_stats["component_names"],
-                "state": self.energy_stats["state"]
+            "component_names": self.energy_stats["component_names"],
+            "state": self.energy_stats["state"]
             }
                 # New endpoint to log BLEU scores
         @app.route('/log_bleu_rl', methods=['POST'])
@@ -238,9 +246,22 @@ class FlaskServerThread(Thread):
             Endpoint to retrieve logged BLEU scores.
             """
             return jsonify({"logs": bleu_log_data}), 200
+        
+        def find_free_port(start=5000, end=5010):
+            for port in range(start, end):
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    try:
+                        s.bind(('', port))
+                        return port
+                    except OSError:
+                        continue
+            raise RuntimeError("No free port found in range.")
+
 
        
-        app.run()
+        port = find_free_port(5000, 5010)
+        print(f"Starting Flask app on port {port}")
+        app.run(port=port)
 
 class CarbonTracker:
     def __init__(self,

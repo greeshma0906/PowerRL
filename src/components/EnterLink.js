@@ -174,7 +174,7 @@ function EnterLink() {
             type="text"
             value={rlUrl}
             onChange={(e) => setRlUrl(e.target.value)}
-            placeholder="Enter your RL pipeline URL..."
+            placeholder="Enter RL pipeline URL..."
           />
         </div>
         <div className="input-box">
@@ -183,7 +183,7 @@ function EnterLink() {
             type="text"
             value={nonRlUrl}
             onChange={(e) => setNonRlUrl(e.target.value)}
-            placeholder="Enter your Non-RL pipeline URL..."
+            placeholder="Enter Non-RL pipeline URL..."
           />
         </div>
         <div className="button-group">
@@ -196,22 +196,22 @@ function EnterLink() {
       <div className="graph-section">
         {/* RL Section */}
         <div className="graph-container">
-          <h3>RL Interval Emissions (CO₂ lbs)</h3>
+          <h3>RL Interval Emissions (kWH)</h3>
           <div className="graph-box">
             {rlIntervalData && (
               <ModelEmissions
                 chartData={rlIntervalData}
-                title="RL Interval Emissions (CO₂ lbs)"
+                title="RL Interval Emissions (kWH)"
                 isEpochData={false}
               />
             )}
           </div>
-          <h3>RL Epoch Emissions (CO₂ lbs)</h3>
+          <h3>RL Epoch Emissions (kWH)</h3>
           <div className="graph-box">
             {rlEpochData && (
               <ModelEmissions
                 chartData={rlEpochData}
-                title="RL Epoch Emissions (CO₂ lbs)"
+                title="RL Epoch Emissions (kWH)"
                 isEpochData={true}
               />
             )}
@@ -222,22 +222,22 @@ function EnterLink() {
 
         {/* Non-RL Section */}
         <div className="graph-container">
-          <h3>Non-RL Interval Emissions (CO₂ lbs)</h3>
+          <h3>Non-RL Interval Emissions (kWH)</h3>
           <div className="graph-box">
             {nonRlIntervalData && (
               <ModelEmissions
                 chartData={nonRlIntervalData}
-                title="Non-RL Interval Emissions (CO₂ lbs)"
+                title="Non-RL Interval Emissions (kWH)"
                 isEpochData={false}
               />
             )}
           </div>
-          <h3>Non-RL Epoch Emissions (CO₂ lbs)</h3>
+          <h3>Non-RL Epoch Emissions (kWH)</h3>
           <div className="graph-box">
             {nonRlEpochData && (
               <ModelEmissions
                 chartData={nonRlEpochData}
-                title="Non-RL Epoch Emissions (CO₂ lbs)"
+                title="Non-RL Epoch Emissions (kWH)"
                 isEpochData={true}
               />
             )}

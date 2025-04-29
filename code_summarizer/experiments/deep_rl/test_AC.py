@@ -6,11 +6,13 @@ import h5py
 import os
 import requests
 sys.path.append(os.path.abspath('../..'))
+sys.path.append(os.path.abspath('../../../backend'))
 from utils.metrics import compute_bleu,compute_rouge
 from utils.config import Config
 from models.deep_rl_summarization.actor_critic import ActorNetwork
 from torch.utils.data import DataLoader,random_split
 from data.custom_dataset import CustomDataset
+from carbontracker.tracker import CarbonTracker
 
 def load_vocab(filepath):
     """
@@ -59,6 +61,8 @@ def log_bleu_to_logging_server(bleu_score):
         print(f"Error sending BLEU score: {e}")
 
 def evaluate_model(model, dataloader, device, vocab_path):
+    tracker = CarbonTracker(epochs=Config.num_epochs)
+    
     model.eval()
     bleu_scores = []
     rouge_1_scores = []
@@ -67,11 +71,12 @@ def evaluate_model(model, dataloader, device, vocab_path):
 
     # Load the vocab once to be used for decoding
     id2token = load_vocab(vocab_path)
-
+    tracker.epoch_start()
     with torch.no_grad():
         for states, ref_summaries in dataloader:
+            
             states = states.to(device).float()
-
+            
             # Predict summaries
             predictions = model.predict(states, Config.max_summary_length)  
             
@@ -85,6 +90,7 @@ def evaluate_model(model, dataloader, device, vocab_path):
                 bleu = compute_bleu(ref.split(), pred.split())  
                 bleu_scores.append(bleu)
                 log_bleu_to_logging_server(bleu)
+                
 
                 # ROUGE
                 # rouge_scores = compute_rouge(ref, pred)
@@ -92,11 +98,12 @@ def evaluate_model(model, dataloader, device, vocab_path):
                 # rouge_1_scores.append(rouge_scores["rouge-1"]["f"])
                 # rouge_2_scores.append(rouge_scores["rouge-2"]["f"])
                 # rouge_l_scores.append(rouge_scores["rouge-l"]["f"])
-
+    tracker.epoch_end()
     # Calculate average scores
     results = {
         "BLEU": sum(bleu_scores) / len(bleu_scores),
     }
+    tracker.stop()
 
     return results
 
@@ -113,7 +120,7 @@ if __name__ == "__main__":
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
     
-    test_dataloader = DataLoader(test_dataset, batch_size=Config.batch_size, shuffle=False)
+    test_dataloader = DataLoader(dataset, batch_size=Config.batch_size, shuffle=False)
 
     
     #baseline_model = BaselineModel().to(device)
