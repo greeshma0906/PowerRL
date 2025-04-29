@@ -35,7 +35,7 @@ def train_model():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-    max_epochs = 30  # Increased epochs for longer training time
+    max_epochs = 3 # Increased epochs for longer training time
     tracker = CarbonTracker(epochs=max_epochs)
 
     for epoch in range(max_epochs):

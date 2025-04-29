@@ -110,3 +110,47 @@
 .add-btn:hover:not(:disabled) {
   background-color: #F57C00;
 }
+.energy-input {
+  margin-bottom: 20px;
+}
+
+.energy-input input {
+  padding: 6px;
+  margin-right: 8px;
+  width: 60%;
+}
+
+.energy-input button {
+  padding: 6px 10px;
+}
+
+.base-energy {
+  margin-top: 10px;
+  font-style: italic;
+  color: #2e7d32;
+}
+
+.energy-estimate {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #1565c0;
+}
+
+.alternative-badge {
+  background: #eee;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-size: 0.85em;
+}
+.carbontracker-section {
+  margin-top: 20px;
+}
+
+.result-display {
+  margin-top: 20px;
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-left: 5px solid #28a745;
+}
+

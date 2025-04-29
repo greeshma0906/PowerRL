@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './HardwareSection.css';
 
 function HardwareSection({ initialHardware = [] }) {
-  // Use safe fallback
   const hardwareList = Array.isArray(initialHardware) ? initialHardware : [];
+
   const [hardware, setHardware] = useState(
     hardwareList.length > 0
       ? hardwareList
@@ -14,6 +14,9 @@ function HardwareSection({ initialHardware = [] }) {
   );
 
   const [selectedHardware, setSelectedHardware] = useState('');
+  const [energyValue, setEnergyValue] = useState(100); // Example energy value in kWh
+  const [efficiencyData, setEfficiencyData] = useState({});
+  const [adjustedEnergy, setAdjustedEnergy] = useState(null);
 
   const hardwareOptions = [
     { value: 'cpu-i9-12900k', label: 'CPU - Intel i9 12900K' },
@@ -23,95 +26,68 @@ function HardwareSection({ initialHardware = [] }) {
     { value: 'gpu-radeon-rx-6900xt', label: 'GPU - AMD Radeon RX 6900XT' }
   ];
 
-  const addHardware = () => {
-    if (!selectedHardware) return;
+  useEffect(() => {
+    fetch('/efficiency.json')
+      .then(res => res.json())
+      .then(data => setEfficiencyData(data))
+      .catch(err => console.error('Failed to load efficiency data:', err));
+  }, []);
 
-    const selected = hardwareOptions.find(option => option.value === selectedHardware);
-
-    if (selected) {
-      const [type, model] = selected.label.split(' - ');
-      const newHardware = {
-        id: hardware.length + 1,
-        type,
-        model,
-        quantity: 1,
-      };
-
-      setHardware(prev => [...prev, newHardware]);
-      setSelectedHardware('');
+  useEffect(() => {
+    if (energyValue && selectedHardware) {
+      const selected = hardwareOptions.find(opt => opt.value === selectedHardware);
+      const label = selected?.label;
+      const multiplier = efficiencyData[label] ?? 1;
+      setAdjustedEnergy((energyValue * multiplier).toFixed(5));
+    } else {
+      setAdjustedEnergy(null);
     }
-  };
-
-  const updateQuantity = (id, increase) => {
-    setHardware(prev =>
-      prev.map(item =>
-        item.id === id
-          ? { ...item, quantity: increase ? item.quantity + 1 : Math.max(0, item.quantity - 1) }
-          : item
-      )
-    );
-  };
+  }, [energyValue, selectedHardware, efficiencyData]);
 
   return (
     <div className="hardware-section">
       <h3>Your Hardware</h3>
 
       <div className="hardware-list">
-        {hardware.length > 0 ? (
-          hardware.map(item => (
-            <div key={item.id} className="hardware-item">
-              <div className="hardware-icon">
-                {item.type === 'CPU' ? '🔲' : '📊'}
-              </div>
-              <div className="hardware-details">
-                <div className="hardware-name">
-                  {item.type} - {item.model}
-                </div>
-                <div className="hardware-quantity">
-                  Quantity: {item.quantity}
-                  {item.alternative && (
-                    <span className="alternative-badge">Alternative: {item.alternative}</span>
-                  )}
-                </div>
-              </div>
-              <div className="quantity-controls">
-                <button className="quantity-btn" onClick={() => updateQuantity(item.id, true)}>+</button>
-                <button className="quantity-btn" onClick={() => updateQuantity(item.id, false)}>-</button>
-              </div>
+        {hardware.map(item => (
+          <div key={item.id} className="hardware-item">
+            <div className="hardware-icon">
+              {item.type === 'CPU' ? '🔲' : '📊'}
             </div>
-          ))
-        ) : (
-          <p>Loading hardware data...</p>
-        )}
+            <div className="hardware-details">
+              <div className="hardware-name">{item.type} - {item.model}</div>
+              <div className="hardware-quantity">Quantity: {item.quantity}</div>
+            </div>
+          </div>
+        ))}
       </div>
 
+      <hr />
+
       <div className="add-hardware">
-        <h4>Add Alternative Hardware</h4>
-        <div className="add-hardware-controls">
-          <select 
-            value={selectedHardware}
-            onChange={(e) => setSelectedHardware(e.target.value)}
-            className="hardware-select"
-          >
-            <option value="">Select Hardware</option>
-            {hardwareOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <button 
-            className="add-btn"
-            onClick={addHardware}
-            disabled={!selectedHardware}
-          >
-            ADD
-          </button>
-        </div>
+        <h4>Select Hardware for Efficiency Calculation</h4>
+        <select
+          value={selectedHardware}
+          onChange={(e) => setSelectedHardware(e.target.value)}
+          className="hardware-select"
+        >
+          <option value="">Select Hardware</option>
+          {hardwareOptions.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
+
+      {adjustedEnergy !== null && (
+        <div className="result-display">
+          <h4> Adjusted Energy Consumption</h4>
+          <p><strong>{adjustedEnergy} kWh</strong> (based on selected hardware efficiency)</p>
+        </div>
+      )}
     </div>
   );
 }
 
 export default HardwareSection;
-	
