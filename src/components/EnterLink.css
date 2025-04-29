@@ -1,49 +1,152 @@
+/* Overall page styling */
+.enter-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  min-height: 100vh; /* Ensures the page takes the full height of the screen */
+  box-sizing: border-box;
+}
 
-.enter-link-container {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #fff3e0; /* Light orange background */
-    border-radius: 8px;
-    border: 1px solid #ffcc80; /* Light orange border */
-  }
-  
+/* Input Section */
+.input-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
 
-  .enter-link-heading {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  .enter-link-bar {
-    display: flex;
-    align-items: center;
-  }
-  
+.input-box input {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 16px;
+}
 
-  .link-input {
-    flex: 1; 
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ffcc80;
-    border-radius: 4px;
-  }
-  
- 
-  .measure-button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #ff9800; 
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .measure-button:hover {
-    background-color: #e68900; 
-  }
-  
+/* Graph Section */
+.graph-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Graph Container */
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 400px; /* Ensures graphs have enough space */
+}.graph-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.graph-container {
+  flex: 1;
+  min-width: 400px;
+}
+
+
+/* Graph Box */
+.graph-box {
+  margin-bottom: 25px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Vertical Line Separator */
+.vertical-line {
+  width: 2px;
+  background-color: #ccc;
+  margin: 0 2rem;
+  min-height: 400px; /* or match your graphs' height */
+  height: auto;
+}
+
+/* Map Section */
+.map-section {
+  margin-top: 3rem;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  text-align: center;background: #ffffff;
+  padding: 0.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+/* Button Section */
+.button-group {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.button-group button {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.button-group button:hover {
+  background-color: #0056b3;
+}
+
+.button-group button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Emissions Value Section */
+.emissions-values {
+  visibility: hidden;
+  transition: visibility 0.5s ease-in-out;
+}
+
+/* Adjusting the size of the hardware section */
+.hardware-section {
+  padding: 1rem;
+  text-align: center;
+  margin-left: 20px;
+  margin-top: 20px;
+
+}
+
+/* Ensure full-width of the graph boxes */
+.graph-container h3 {
+  text-align: center;
+  font-size: 18px;
+}
+
+.input-box h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.input-box input {
+  font-size: 16px;
+}

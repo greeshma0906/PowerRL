@@ -11,6 +11,35 @@ As the scale and complexity of AI models continue to grow, so does their **envir
 - Visualize consumption trends over time.
 
 
+##  Folder Structure
+
+
+```plaintext
+PowerRL/
+│
+├── backend/                      # Backend for energy tracking (FastAPI)
+│   ├── carbontracker/             # Core logic for energy tracking     
+│   ├── requirements.txt          # Main backend dependencies
+├── code_summarizer/        # RL pipelines and model training
+│   └── data/ 
+│   ├── dataset/            # Processed dataset and loading logic
+│   └── models/             # Training scripts and architectures
+│   └── experiments/ 
+│
+├── public/                 # Static assets for frontend
+│   └── india-states.json   # CO₂ intensity map data
+│
+├── src/                    # React frontend app
+│   ├── App.js             
+│   ├── index.js            
+│   └── utils/              
+│   └── components/ 
+│
+├── README.md               # Project overview and setup
+├── package.json            # Frontend dependencies and scripts
+├── requirements.txt        # Backend Python dependencies
+
+```
 ## Running PowerRL Locally
 
 ###  Clone the Repository
@@ -39,7 +68,9 @@ Open that link in your browser to access the PowerRL frontend interface.
 
 You’ll be able to visualize tracked energy metrics as they are received from the backend.
 
+### Code Summarizer
 
+For detailed instructions on setting up and using the Code Summarizer, please refer to the README file inside the [code_summarizer](./code_summarizer) folder.
 
 ###  Backend Setup
 
@@ -72,3 +103,6 @@ tracker.stop()
 ```
 
 When you run your training script, a local backend server URL will be printed. Paste that URL into the frontend interface to enable real-time tracking.
+
+
+

@@ -1,0 +1,27 @@
+.header {
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .header-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #00ffcc;
+  }
+  
+  .header-subtitle {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #dcdcdc;
+  }
+  

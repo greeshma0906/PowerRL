@@ -1,15 +1,15 @@
 :root {
-  --primary-color: #FF9800; /* Orange */
-  --secondary-color: #FFF3E0; /* Light Orange */
+  --primary-color: #ff9800; /* Orange */
+  --secondary-color: #fff3e0; /* Light Orange */
   --text-color: #333;
-  --border-color: #FFCC80; /* Light Orange Border */
-  --highlight-green: #4CAF50;
-  --highlight-yellow: #FFEB3B;
-  --highlight-pink: #FF4081;
+  --border-color: #ffcc80; /* Light Orange Border */
+  --highlight-green: #4caf50;
+  --highlight-yellow: #ffeb3b;
+  --highlight-pink: #ff4081;
 }
 
 body {
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   line-height: 1.6;
   color: var(--text-color);
   margin: 0;
@@ -17,13 +17,13 @@ body {
   background-color: var(--secondary-color);
 }
 
-.App {
-  max-width: 1200px;
-  margin: 0 auto;
+App {
+  width: 100%;
   padding: 20px;
+  box-sizing: border-box;
 }
-
 /* Header styling */
+/* var(--primary-color); */
 .header {
   background-color: var(--primary-color);
   color: white;
@@ -40,30 +40,26 @@ body {
   margin-top: 5px;
 }
 
-
 .content {
-  display: flex; 
-  justify-content: space-between; 
-  gap: 20px; 
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .left-panel,
 .right-panel {
-  flex: 1; 
+  flex: 1;
 }
-
 
 .left-panel {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
-
 
 .right-panel {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
-
 
 .notification-bar {
   background-color: var(--secondary-color);
@@ -81,7 +77,6 @@ body {
   border: none;
   padding: 5px 10px;
 }
-
 
 .model-tabs {
   display: flex;
