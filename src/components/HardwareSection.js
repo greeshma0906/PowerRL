@@ -1,61 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import './HardwareSection.css';
+import React, { useState, useEffect } from "react";
+import "./HardwareSection.css";
 
-function HardwareSection({ initialHardware = [] }) {
+function HardwareSection({ initialHardware = [], averageEnergy }) {
   const hardwareList = Array.isArray(initialHardware) ? initialHardware : [];
 
   const [hardware, setHardware] = useState(
     hardwareList.length > 0
       ? hardwareList
       : [
-          { id: 1, type: 'CPU', model: 'Intel i7', quantity: 1 },
-          { id: 2, type: 'GPU', model: 'GTX-1080-Ti', quantity: 1 }
+          { id: 1, type: "CPU", model: "Intel i7", quantity: 1 },
+          { id: 2, type: "GPU", model: "GTX-1080-Ti", quantity: 1 },
         ]
   );
 
-  const [selectedHardware, setSelectedHardware] = useState('');
-  const [energyValue, setEnergyValue] = useState(100); // Example energy value in kWh
+  const [selectedHardware, setSelectedHardware] = useState("");
   const [efficiencyData, setEfficiencyData] = useState({});
   const [adjustedEnergy, setAdjustedEnergy] = useState(null);
 
   const hardwareOptions = [
-    { value: 'cpu-i9-12900k', label: 'CPU - Intel i9 12900K' },
-    { value: 'cpu-ryzen-9-5950x', label: 'CPU - AMD Ryzen 9 5950X' },
-    { value: 'gpu-rtx-3090', label: 'GPU - NVIDIA RTX 3090' },
-    { value: 'gpu-rtx-3080', label: 'GPU - NVIDIA RTX 3080' },
-    { value: 'gpu-radeon-rx-6900xt', label: 'GPU - AMD Radeon RX 6900XT' }
+    { value: "cpu-i9-12900k", label: "CPU - Intel i9 12900K" },
+    { value: "cpu-ryzen-9-5950x", label: "CPU - AMD Ryzen 9 5950X" },
+    { value: "gpu-rtx-3090", label: "GPU - NVIDIA RTX 3090" },
+    { value: "gpu-rtx-3080", label: "GPU - NVIDIA RTX 3080" },
+    { value: "gpu-radeon-rx-6900xt", label: "GPU - AMD Radeon RX 6900XT" },
   ];
 
   useEffect(() => {
-    fetch('/efficiency.json')
-      .then(res => res.json())
-      .then(data => setEfficiencyData(data))
-      .catch(err => console.error('Failed to load efficiency data:', err));
+    fetch("/efficiency.json")
+      .then((res) => res.json())
+      .then((data) => setEfficiencyData(data))
+      .catch((err) => console.error("Failed to load efficiency data:", err));
   }, []);
 
   useEffect(() => {
-    if (energyValue && selectedHardware) {
-      const selected = hardwareOptions.find(opt => opt.value === selectedHardware);
+    if (averageEnergy && selectedHardware) {
+      const selected = hardwareOptions.find(
+        (opt) => opt.value === selectedHardware
+      );
       const label = selected?.label;
       const multiplier = efficiencyData[label] ?? 1;
-      setAdjustedEnergy((energyValue * multiplier).toFixed(5));
+      setAdjustedEnergy((averageEnergy * multiplier).toFixed(5));
     } else {
       setAdjustedEnergy(null);
     }
-  }, [energyValue, selectedHardware, efficiencyData]);
+  }, [averageEnergy, selectedHardware, efficiencyData]);
 
   return (
     <div className="hardware-section">
       <h3>Your Hardware</h3>
 
       <div className="hardware-list">
-        {hardware.map(item => (
+        {hardware.map((item) => (
           <div key={item.id} className="hardware-item">
             <div className="hardware-icon">
-              {item.type === 'CPU' ? '🔲' : '📊'}
+              {item.type === "CPU" ? "🔲" : "📊"}
             </div>
             <div className="hardware-details">
-              <div className="hardware-name">{item.type} - {item.model}</div>
+              <div className="hardware-name">
+                {item.type} - {item.model}
+              </div>
               <div className="hardware-quantity">Quantity: {item.quantity}</div>
             </div>
           </div>
@@ -72,7 +75,7 @@ function HardwareSection({ initialHardware = [] }) {
           className="hardware-select"
         >
           <option value="">Select Hardware</option>
-          {hardwareOptions.map(option => (
+          {hardwareOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -82,8 +85,11 @@ function HardwareSection({ initialHardware = [] }) {
 
       {adjustedEnergy !== null && (
         <div className="result-display">
-          <h4> Adjusted Energy Consumption</h4>
-          <p><strong>{adjustedEnergy} kWh</strong> (based on selected hardware efficiency)</p>
+          <h4>Adjusted Energy Consumption</h4>
+          <p>
+            <strong>{adjustedEnergy} kWh</strong> (based on selected hardware
+            efficiency)
+          </p>
         </div>
       )}
     </div>

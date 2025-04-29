@@ -28,8 +28,12 @@ function EnterLink() {
 
       const epochs = Object.keys(cpuInterval);
 
-      const cpuIntervalEmissions = epochs.map((epoch) => cpuInterval[epoch] || 0);
-      const gpuIntervalEmissions = epochs.map((epoch) => gpuInterval[epoch] || 0);
+      const cpuIntervalEmissions = epochs.map(
+        (epoch) => cpuInterval[epoch] || 0
+      );
+      const gpuIntervalEmissions = epochs.map(
+        (epoch) => gpuInterval[epoch] || 0
+      );
       const cpuEpochEmissions = epochs.map((epoch) => cpuEpoch[epoch] ?? null);
       const gpuEpochEmissions = epochs.map((epoch) => gpuEpoch[epoch] ?? null);
       const totalEnergyPerEpoch = epochs.map((epoch) => {
@@ -248,7 +252,10 @@ function EnterLink() {
       {hardwareData.length > 0 && (
         <div className="hardware-section">
           <h3>Hardware Details</h3>
-          <HardwareSection initialHardware={hardwareData} />
+          <HardwareSection
+            initialHardware={hardwareData}
+            averageEnergy={averageEnergy}
+          />
         </div>
       )}
 
