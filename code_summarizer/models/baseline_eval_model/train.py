@@ -29,7 +29,7 @@ NUM_LAYERS = 1
 DROPOUT = 0.5
 LEARNING_RATE = 0.00005
 EPOCHS = 10
-BATCH_SIZE = 8
+BATCH_SIZE = 10
 PAD_IDX = 0
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../../dataset/processed_data.h5")

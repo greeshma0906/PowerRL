@@ -5,14 +5,18 @@ import HardwareSection from "./HardwareSection";
 import IndiaMap from "./IndiaMap";
 
 function EnterLink() {
-  const [url, setUrl] = useState("");
-  const [intervalData, setIntervalData] = useState(null);
-  const [epochData, setEpochData] = useState(null);
+  const [rlUrl, setRlUrl] = useState("");
+  const [nonRlUrl, setNonRlUrl] = useState("");
+
+  const [rlIntervalData, setRlIntervalData] = useState(null);
+  const [rlEpochData, setRlEpochData] = useState(null);
+  const [nonRlIntervalData, setNonRlIntervalData] = useState(null);
+  const [nonRlEpochData, setNonRlEpochData] = useState(null);
   const [hardwareData, setHardwareData] = useState([]);
   const [intervalId, setIntervalId] = useState(null);
   const [averageEnergy, setAverageEnergy] = useState(0);
 
-  const fetchAndUpdateData = async () => {
+  const fetchEnergyData = async (url, setIntervalData, setEpochData) => {
     try {
       const energyRes = await fetch(`${url}/energy-stats`);
       const energyJson = await energyRes.json();
@@ -24,33 +28,25 @@ function EnterLink() {
 
       const epochs = Object.keys(cpuInterval);
 
-      const cpuIntervalEmissions = epochs.map(
-        (epoch) => cpuInterval[epoch] || 0
-      );
-      const gpuIntervalEmissions = epochs.map(
-        (epoch) => gpuInterval[epoch] || 0
-      );
+      const cpuIntervalEmissions = epochs.map((epoch) => cpuInterval[epoch] || 0);
+      const gpuIntervalEmissions = epochs.map((epoch) => gpuInterval[epoch] || 0);
       const cpuEpochEmissions = epochs.map((epoch) => cpuEpoch[epoch] ?? null);
       const gpuEpochEmissions = epochs.map((epoch) => gpuEpoch[epoch] ?? null);
-
       const totalEnergyPerEpoch = epochs.map((epoch) => {
         const cpu = cpuEpoch[epoch] ?? 0;
         const gpu = gpuEpoch[epoch] ?? 0;
         return cpu + gpu;
       });
-      console.log("Hi");
 
       const validEnergies = totalEnergyPerEpoch.filter(
         (v) => v !== null && !isNaN(v)
       );
       const totalEnergyUsed = validEnergies.reduce((a, b) => a + b, 0);
-      console.log(totalEnergyUsed);
       const avgEnergy =
         validEnergies.length > 0 ? totalEnergyUsed / validEnergies.length : 0;
-      console.log(avgEnergy);
 
       setAverageEnergy(Number(avgEnergy.toFixed(5)));
-      // Set interval data (for graph 1)
+
       setIntervalData({
         labels: epochs,
         datasets: [
@@ -75,7 +71,6 @@ function EnterLink() {
         ],
       });
 
-      // Set epoch data (for graph 2)
       setEpochData({
         labels: epochs,
         datasets: [
@@ -102,7 +97,6 @@ function EnterLink() {
         ],
       });
 
-      // Fetch hardware setup
       const setupRes = await fetch(`${url}/initial-setup`);
       const setupJson = await setupRes.json();
 
@@ -137,63 +131,12 @@ function EnterLink() {
     }
   };
 
-  // New function to fetch data and allow download
-  const handleFetchDataAndDownload = async () => {
+  const fetchAndUpdateData = async () => {
     try {
-      // Fetch the energy stats from the server
-      const energyRes = await fetch(`${url}/energy-stats`);
-      const energyJson = await energyRes.json();
-
-      // Trigger the download of the fetched data as JSON
-      const dataToDownload = JSON.stringify(energyJson, null, 2); // Format the JSON data
-      const blob = new Blob([dataToDownload], { type: "application/json" });
-
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "energyData.json"; // File name for the download
-      link.click();
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    }
-  };
-
-  // New function to fetch data and allow download
-  const handleFetchDataAndDownload = async () => {
-    try {
-      // Fetch the energy stats from the server
-      const energyRes = await fetch(`${url}/energy-stats`);
-      const energyJson = await energyRes.json();
-
-      // Trigger the download of the fetched data as JSON
-      const dataToDownload = JSON.stringify(energyJson, null, 2); // Format the JSON data
-      const blob = new Blob([dataToDownload], { type: 'application/json' });
-
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'energyData.json'; // File name for the download
-      link.click();
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    }
-  };
-
-  // New function to fetch data and allow download
-  const handleFetchDataAndDownload = async () => {
-    try {
-      // Fetch the energy stats from the server
-      const energyRes = await fetch(`${url}/energy-stats`);
-      const energyJson = await energyRes.json();
-
-      // Trigger the download of the fetched data as JSON
-      const dataToDownload = JSON.stringify(energyJson, null, 2); // Format the JSON data
-      const blob = new Blob([dataToDownload], { type: "application/json" });
-
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "energyData.json"; // File name for the download
-      link.click();
-    } catch (err) {
-      console.error("Error fetching data:", err);
+      await fetchEnergyData(rlUrl, setRlIntervalData, setRlEpochData);
+      await fetchEnergyData(nonRlUrl, setNonRlIntervalData, setNonRlEpochData);
+    } catch (error) {
+      console.error("Error fetching energy data:", error);
     }
   };
 
@@ -202,20 +145,18 @@ function EnterLink() {
       clearInterval(intervalId);
     }
 
-    // Initial fetch
     await fetchAndUpdateData();
 
-    // Periodic fetching every 5 seconds
     const newIntervalId = setInterval(fetchAndUpdateData, 5000);
     setIntervalId(newIntervalId);
   };
+
   const handleStopMonitoring = () => {
     if (intervalId) {
       clearInterval(intervalId);
     }
   };
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (intervalId) {
@@ -225,44 +166,94 @@ function EnterLink() {
   }, [intervalId]);
 
   return (
-    <div className="enter-link-map-wrapper">
-      <div className="left-panel">
-        <h3 className="enter-link-heading">
-          Enter the link to your RL pipeline:
-        </h3>
-        <div className="enter-link-bar">
+    <div className="enter-link-wrapper">
+      <div className="input-section">
+        <div className="input-box">
+          <h3>RL Pipeline Link:</h3>
           <input
             type="text"
-            placeholder="Paste your link here..."
-            className="link-input"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            value={rlUrl}
+            onChange={(e) => setRlUrl(e.target.value)}
+            placeholder="Enter your RL pipeline URL..."
           />
+        </div>
+        <div className="input-box">
+          <h3>Non-RL Pipeline Link:</h3>
+          <input
+            type="text"
+            value={nonRlUrl}
+            onChange={(e) => setNonRlUrl(e.target.value)}
+            placeholder="Enter your Non-RL pipeline URL..."
+          />
+        </div>
+        <div className="button-group">
           <button className="measure-button" onClick={handleFetchData}>
-            Measure
+            Start Measuring
           </button>
         </div>
-
-        {intervalData && (
-          <ModelEmissions
-            chartData={intervalData}
-            title="Interval Emissions (CO2 lbs)"
-            isEpochData={false}
-          />
-        )}
-        {epochData && (
-          <ModelEmissions
-            chartData={epochData}
-            title="Epoch Emissions (CO2 lbs)"
-            isEpochData={true}
-          />
-        )}
-
-        {hardwareData.length > 0 && (
-          <HardwareSection initialHardware={hardwareData} />
-        )}
       </div>
-      <div className="right-panel">
+
+      <div className="graph-section">
+        {/* RL Section */}
+        <div className="graph-container">
+          <h3>RL Interval Emissions (CO₂ lbs)</h3>
+          <div className="graph-box">
+            {rlIntervalData && (
+              <ModelEmissions
+                chartData={rlIntervalData}
+                title="RL Interval Emissions (CO₂ lbs)"
+                isEpochData={false}
+              />
+            )}
+          </div>
+          <h3>RL Epoch Emissions (CO₂ lbs)</h3>
+          <div className="graph-box">
+            {rlEpochData && (
+              <ModelEmissions
+                chartData={rlEpochData}
+                title="RL Epoch Emissions (CO₂ lbs)"
+                isEpochData={true}
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="vertical-line"></div>
+
+        {/* Non-RL Section */}
+        <div className="graph-container">
+          <h3>Non-RL Interval Emissions (CO₂ lbs)</h3>
+          <div className="graph-box">
+            {nonRlIntervalData && (
+              <ModelEmissions
+                chartData={nonRlIntervalData}
+                title="Non-RL Interval Emissions (CO₂ lbs)"
+                isEpochData={false}
+              />
+            )}
+          </div>
+          <h3>Non-RL Epoch Emissions (CO₂ lbs)</h3>
+          <div className="graph-box">
+            {nonRlEpochData && (
+              <ModelEmissions
+                chartData={nonRlEpochData}
+                title="Non-RL Epoch Emissions (CO₂ lbs)"
+                isEpochData={true}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {hardwareData.length > 0 && (
+        <div className="hardware-section">
+          <h3>Hardware Details</h3>
+          <HardwareSection initialHardware={hardwareData} />
+        </div>
+      )}
+
+      <div className="map-section">
+        <h3>CO₂ Intensity Across India</h3>
         <IndiaMap averageEnergy={averageEnergy} />
       </div>
     </div>

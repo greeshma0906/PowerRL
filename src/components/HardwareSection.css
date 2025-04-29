@@ -1,105 +1,112 @@
 .hardware-section {
-    background-color:#FFF3E0;
-    border-radius: 8px;
-    padding: 15px;
-    border: 1px solid #FF9800;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .hardware-section h3 {
-    margin-top: 0;
-    color: #333;
-  }
-  
-  .hardware-list {
-    margin-bottom: 20px;
-  }
-  
-  .hardware-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .hardware-icon {
-    margin-right: 15px;
-    font-size: 24px;
-  }
-  
-  .hardware-details {
-    flex: 1;
-  }
-  
-  .hardware-name {
-    font-weight: bold;
-  }
-  
-  .hardware-quantity {
-    font-size: 0.9em;
-    color: #666;
-  }
-  
-  .alternative-badge {
-    background-color: #f0f0f0;
-    padding: 2px 5px;
-    border-radius: 4px;
-    margin-left: 10px;
-    font-size: 0.8em;
-  }
-  
-  .quantity-controls {
-    display: flex;
-  }
-  
-  .quantity-btn {
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .quantity-btn:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .add-hardware h4 {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1em;
-  }
-  
-  .add-hardware-controls {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .hardware-select {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #FF9800;
-    border-radius: 4px;
-  }
-  
-  .add-btn {
-    background-color: #FF9800;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .add-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .add-btn:hover:not(:disabled) {
-    background-color: #F57C00;
-  }
-  
+  background-color: #FFF3E0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #FF9800;
+  margin-top: 10px;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.08);
+  max-width: 500px; /* Limit the width */
+  font-size: 0.9em; /* Slightly smaller text */
+}
+
+.hardware-section h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.hardware-list {
+  margin-bottom: 10px;
+}
+
+.hardware-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.hardware-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.hardware-details {
+  flex: 1;
+}
+
+.hardware-name {
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.hardware-quantity {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.alternative-badge {
+  background-color: #f0f0f0;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-size: 0.75em;
+}
+
+.quantity-controls {
+  display: flex;
+}
+
+.quantity-btn {
+  width: 26px;
+  height: 26px;
+  margin-left: 5px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+.quantity-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.add-hardware h4 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.add-hardware-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.hardware-select {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #FF9800;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.add-btn {
+  background-color: #FF9800;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.add-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.add-btn:hover:not(:disabled) {
+  background-color: #F57C00;
+}

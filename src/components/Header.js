@@ -1,13 +1,15 @@
 import React from 'react';
+import './Header.css';
 
 function Header() {
   return (
     <header className="header">
-      <h1>PowerRL</h1>
-      <p>Interactive Energy Tracking for your pipelines</p>
+      <div className="header-content">
+        <h1 className="header-title"> PowerRL</h1>
+        <p className="header-subtitle">Interactive Energy Tracking for your RL Pipelines</p>
+      </div>
     </header>
   );
-
 }
 
 export default Header;
