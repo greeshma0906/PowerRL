@@ -18,9 +18,10 @@ from carbontracker import exceptions
 from carbontracker.components import component
 import cpuinfo
 import time
-from flask import Flask  
+from flask import Flask,request
 import geocoder
 
+bleu_log_data = []
 class CarbonTrackerThread(Thread):
     """Thread to fetch consumptions"""
     def __init__(self,
@@ -215,6 +216,29 @@ class FlaskServerThread(Thread):
                 "component_names": self.energy_stats["component_names"],
                 "state": self.energy_stats["state"]
             }
+                # New endpoint to log BLEU scores
+        @app.route('/log_bleu_rl', methods=['POST'])
+        def log_bleu():
+            """
+            Endpoint to log BLEU scores from the model evaluation.
+            """
+            data = request.get_json()
+            if 'bleu_score' in data:
+                bleu_score = data['bleu_score']
+                bleu_log_data.append(bleu_score)
+                print(f"Logged BLEU score: {bleu_score}")  # Internal console feedback
+                return jsonify({"status": "success", "message": "BLEU score logged!"}), 200
+            else:
+                return jsonify({"status": "error", "message": "No BLEU score provided!"}), 400
+
+        # New endpoint to retrieve logged BLEU scores
+        @app.route('/get_bleu_rl', methods=['GET'])
+        def get_logs():
+            """
+            Endpoint to retrieve logged BLEU scores.
+            """
+            return jsonify({"logs": bleu_log_data}), 200
+
        
         app.run()
 
@@ -222,7 +246,7 @@ class CarbonTracker:
     def __init__(self,
                  epochs,
                  epochs_before_pred=1,
-                 monitor_epochs=11,
+                 monitor_epochs=6,
                  update_interval=10,
                  stop_and_confirm=False,
                  ignore_errors=False,

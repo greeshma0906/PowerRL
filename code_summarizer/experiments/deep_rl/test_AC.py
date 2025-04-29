@@ -4,6 +4,7 @@ import torch
 import sys
 import h5py
 import os
+import requests
 sys.path.append(os.path.abspath('../..'))
 from utils.metrics import compute_bleu,compute_rouge
 from utils.config import Config
@@ -11,40 +12,90 @@ from models.deep_rl_summarization.actor_critic import ActorNetwork
 from torch.utils.data import DataLoader,random_split
 from data.custom_dataset import CustomDataset
 
-def evaluate_model(model, dataloader, device):
+def load_vocab(filepath):
+    """
+    Loads vocab file with token-score pairs and returns a list of tokens (id2token).
+    """
+    id2token = []
+    
+    with open(filepath, 'r', encoding='utf-8') as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) >= 1:
+                token = parts[0]  # The token is the first element in the line
+                id2token.append(token)  # Add token to list, index is its position in the list
+    
+    return id2token
+
+def decode_indices(indices_batch, vocab_path):
+    """
+    Decodes a batch of token indices into human-readable sentences using the vocab file.
+    """
+    id2token = load_vocab(vocab_path)  
+    
+    decoded_sentences = []
+    
+    for indices in indices_batch:
+        tokens = [id2token[idx] if idx < len(id2token) else '<unk>' for idx in indices]
+        sentence = ' '.join(tokens).replace('▁', ' ').strip()  
+        decoded_sentences.append(sentence)
+    
+    return decoded_sentences
+
+def log_bleu_to_logging_server(bleu_score):
+    """
+    Sends the BLEU score to the logging Flask server.
+    """
+    url = 'http://127.0.0.1:5000/log_bleu_rl'  # URL of the new Flask logging server
+    data = {'bleu_score': bleu_score}
+    
+    try:
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            print(f"Successfully logged BLEU score: {bleu_score}")
+        else:
+            print(f"Failed to log BLEU score: {response.text}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending BLEU score: {e}")
+
+def evaluate_model(model, dataloader, device, vocab_path):
     model.eval()
     bleu_scores = []
     rouge_1_scores = []
     rouge_2_scores = []
     rouge_l_scores = []
 
+    # Load the vocab once to be used for decoding
+    id2token = load_vocab(vocab_path)
+
     with torch.no_grad():
         for states, ref_summaries in dataloader:
             states = states.to(device).float()
 
             # Predict summaries
-            predictions = model.predict(states,Config.max_summary_length)  # should return token indices or decoded tokens
-
+            predictions = model.predict(states, Config.max_summary_length)  
+            
             for i in range(len(predictions)):
-                # Tokenize reference and prediction if needed
-                ref = [str(token) for token in ref_summaries[i]]
-                pred = [str(token) for token in predictions[i]]
-
+          
+                ref = decode_indices([ref_summaries[i]], vocab_path)[0]  
+                pred = decode_indices([predictions[i]], vocab_path)[0] 
+                
+                
                 # BLEU
-                bleu = compute_bleu(ref, pred)
+                bleu = compute_bleu(ref.split(), pred.split())  
                 bleu_scores.append(bleu)
+                log_bleu_to_logging_server(bleu)
 
                 # ROUGE
-                rouge_scores = compute_rouge(ref, pred)
-                rouge_1_scores.append(rouge_scores["rouge-1"]["f"])
-                rouge_2_scores.append(rouge_scores["rouge-2"]["f"])
-                rouge_l_scores.append(rouge_scores["rouge-l"]["f"])
+                # rouge_scores = compute_rouge(ref, pred)
+                # print(rouge_scores)
+                # rouge_1_scores.append(rouge_scores["rouge-1"]["f"])
+                # rouge_2_scores.append(rouge_scores["rouge-2"]["f"])
+                # rouge_l_scores.append(rouge_scores["rouge-l"]["f"])
 
+    # Calculate average scores
     results = {
         "BLEU": sum(bleu_scores) / len(bleu_scores),
-        "ROUGE-1": sum(rouge_1_scores) / len(rouge_1_scores),
-        "ROUGE-2": sum(rouge_2_scores) / len(rouge_2_scores),
-        "ROUGE-L": sum(rouge_l_scores) / len(rouge_l_scores)
     }
 
     return results
@@ -56,30 +107,27 @@ if __name__ == "__main__":
         print("Keys in file:", list(f.keys()))
         print("X shape:", f["X"].shape)
         print("Y shape:", f["Y"].shape)
-    # Split into train/test (e.g., 80/20 split)
+    
     train_size = int(0.8 * len(dataset))
     test_size = len(dataset) - train_size
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
-    # Loaders
+    
     test_dataloader = DataLoader(test_dataset, batch_size=Config.batch_size, shuffle=False)
 
-    # Initialize your models
+    
     #baseline_model = BaselineModel().to(device)
     deep_rl_model = ActorNetwork(Config.input_dim,512, 256, Config.output_dim, Config.num_layers).to(Config.device)
 
-    # Load model weights if needed
+    
     #baseline_model.load_state_dict(torch.load("path/to/baseline_model.pth", map_location=device))
-    deep_rl_model.load_state_dict(torch.load("checkpoints/final_actor.pth", map_location=device))
+    deep_rl_model.load_state_dict(torch.load("models/checkpoints/actor_model.pth", map_location=device))
 
     # Evaluate
     #baseline_results = evaluate_model(baseline_model, test_dataloader, tokenizer, device)
-    deep_rl_results = evaluate_model(deep_rl_model, test_dataloader, device)
+    deep_rl_results = evaluate_model(deep_rl_model, test_dataloader,device,vocab_path = "../../dataset/bpe_model.vocab")
 
     print("Baseline Model Evaluation:")
-    for k, v in baseline_results.items():
-        print(f"{k}: {v:.4f}")
-
     print("\nDeep RL Model Evaluation:")
     for k, v in deep_rl_results.items():
         print(f"{k}: {v:.4f}")
