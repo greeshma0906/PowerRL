@@ -1,4 +1,6 @@
 # PowerRL
+
+## [Demo Video Link](https://drive.google.com/file/d/1je4abIiW8LwCTpd34WCPMH8Pb-6ubhtE/view?usp=drive_link)
 **PowerRL** is a research-focused analytical tool designed to **measure**, **monitor**, and **compare** the **energy consumption** of machine learning models trained with **Reinforcement Learning (RL)** against those trained without it. 
 
 As the scale and complexity of AI models continue to grow, so does their **environmental footprint**—particularly the **power consumed** during training and inference. **PowerRL** contributes to the **Green AI** movement by providing a visual and programmatic framework to evaluate not just model performance, but also the **energy cost** associated with achieving it.
