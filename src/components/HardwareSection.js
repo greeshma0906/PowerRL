@@ -100,7 +100,11 @@
 import React, { useState, useEffect } from "react";
 import "./HardwareSection.css";
 
-function HardwareSection({ initialHardware = [], averageEnergy, setAdjustedEnergy }) {
+function HardwareSection({
+  initialHardware = [],
+  averageEnergy,
+  setAdjustedEnergy,
+}) {
   const hardwareList = Array.isArray(initialHardware) ? initialHardware : [];
 
   const [hardware, setHardware] = useState(
@@ -122,6 +126,17 @@ function HardwareSection({ initialHardware = [], averageEnergy, setAdjustedEnerg
     { value: "gpu-rtx-3090", label: "GPU - NVIDIA RTX 3090" },
     { value: "gpu-rtx-3080", label: "GPU - NVIDIA RTX 3080" },
     { value: "gpu-radeon-rx-6900xt", label: "GPU - AMD Radeon RX 6900XT" },
+    {
+      value: "gpu-gtx-1080-mobile",
+      label: "GPU - NVIDIA GeForce GTX 1080 Mobile",
+    },
+    { value: "gpu-iris-plus-650", label: "GPU - Intel Iris Plus Graphics 650" },
+    {
+      value: "gpu-quadro-t1000-mobile",
+      label: "GPU - NVIDIA Quadro T1000 Mobile",
+    },
+    { value: "gpu-p102-100", label: "GPU - NVIDIA P102-100" },
+    { value: "gpu-hd-graphics-5600", label: "GPU - Intel HD Graphics 5600" },
   ];
 
   useEffect(() => {
@@ -189,8 +204,8 @@ function HardwareSection({ initialHardware = [], averageEnergy, setAdjustedEnerg
         <div className="result-display">
           <h4>Adjusted Energy Consumption</h4>
           <p>
-            <strong>{localAdjustedEnergy} kWh</strong> (based on selected hardware
-            efficiency)
+            <strong>{localAdjustedEnergy} kWh</strong> (based on selected
+            hardware efficiency)
           </p>
         </div>
       )}
