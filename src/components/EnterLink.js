@@ -260,7 +260,6 @@ function EnterLink() {
       )}
 
       <div className="map-section">
-        <h3>CO₂ Intensity Across India</h3>
         <IndiaMap averageEnergy={averageEnergy} />
       </div>
     </div>

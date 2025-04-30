@@ -13,8 +13,9 @@
 .input-section {
   display: flex;
   justify-content: center;
+  flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 15rem;
   margin-bottom: 2rem;
 }
 
@@ -30,6 +31,11 @@
   border-radius: 5px;
   width: 300px;
   font-size: 16px;
+}
+
+.input-box h3 {
+  font-size: 18px;
+  color: #333;
 }
 
 /* Graph Section */
@@ -49,20 +55,12 @@
   gap: 1.5rem;
   flex: 1;
   min-width: 400px; /* Ensures graphs have enough space */
-}.graph-section {
-  display: flex;
-  justify-content: space-between;
-  gap: 3rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-  align-items: flex-start;
 }
 
-.graph-container {
-  flex: 1;
-  min-width: 400px;
+.graph-container h3 {
+  text-align: center;
+  font-size: 18px;
 }
-
 
 /* Graph Box */
 .graph-box {
@@ -73,25 +71,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
 }
 
-/* Vertical Line Separator */
-.vertical-line {
-  width: 2px;
-  background-color: #ccc;
-  margin: 0 2rem;
-  min-height: 400px; /* or match your graphs' height */
-  height: auto;
-}
-
 /* Map Section */
 .map-section {
   margin-top: 3rem;
   padding: 1rem;
   border-top: 1px solid #ccc;
-  text-align: center;background: #ffffff;
-  padding: 0.5rem;
+  text-align: center;
+  background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  max-width: 1600px;
   margin: 2rem auto;
 }
 
@@ -100,13 +89,15 @@
   display: flex;
   gap: 2rem;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .button-group button {
   padding: 1rem 2rem;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #56708b;
   color: white;
   cursor: pointer;
   font-size: 18px;
@@ -129,24 +120,14 @@
 
 /* Adjusting the size of the hardware section */
 .hardware-section {
+  display: flex;
+  justify-content: center; /* Horizontally center the section */
+  align-items: center; /* Vertically center the content */
+  flex-direction: column; /* Ensures content is stacked vertically */
   padding: 1rem;
   text-align: center;
   margin-left: 20px;
   margin-top: 20px;
-
-}
-
-/* Ensure full-width of the graph boxes */
-.graph-container h3 {
-  text-align: center;
-  font-size: 18px;
-}
-
-.input-box h3 {
-  font-size: 18px;
-  color: #333;
-}
-
-.input-box input {
-  font-size: 16px;
+  max-width: 800px; /* Optional: adjust the max-width as needed */
+  margin: 20px auto; /* Centers the section horizontally */
 }
