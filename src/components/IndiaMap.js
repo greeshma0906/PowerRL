@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import indiaEnergyData from "../IndiaEnergyData.json";
@@ -37,18 +36,15 @@ const IndiaMap = ({ averageEnergy }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          gap: "40px",
+          gap: "20px", // Reduced gap between map and bar
         }}
       >
-        {/* Map */}
-        <div style={{ flex: 1 }}>
-          <h3 style={{ textAlign: "center" }}>
-            India Energy Intensity (CO₂/kWh)
-          </h3>
+        {/* Map Section */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "row", marginLeft: "200px" }}> {/* Added marginLeft */}
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{ scale: 1000, center: [82.8, 22.5] }}
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "50vh" }}
           >
             <Geographies
               geography={{ type: "FeatureCollection", features: geoData }}
@@ -81,9 +77,6 @@ const IndiaMap = ({ averageEnergy }) => {
               }
             </Geographies>
           </ComposableMap>
-          <div style={{ textAlign: "center", marginTop: 10 }}>
-            <small>Dark = High CO₂ intensity, Light = Low</small>
-          </div>
         </div>
 
         {/* Color Legend */}
@@ -92,40 +85,37 @@ const IndiaMap = ({ averageEnergy }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            height: "50vh", // Match the height of the map
+            justifyContent: "center",
+            marginTop: "10px", // Reduced top margin to reduce gap
           }}
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
+              height: "100%", // Ensure the gradient covers the full height
+              width: "20px",
+              background: "linear-gradient(to bottom, #003366, #b3cde0)",
+              border: "1px solid #ccc",
+            }}
+          />
+          <div
+            style={{
+              marginTop: "10px",
+              fontSize: "12px",
+              textAlign: "center",
+              marginBottom: "10px", // To keep space for the text
             }}
           >
-            <div
-              style={{
-                height: "150px",
-                width: "20px",
-                background: "linear-gradient(to bottom, #003366, #b3cde0)",
-                border: "1px solid #ccc",
-                marginRight: "5px",
-              }}
-            />
-            <div
-              style={{
-                height: "150px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                fontSize: "12px",
-                color: "#333",
-              }}
-            >
-              <div>1.5</div>
-              <div>0.0</div>
-            </div>
-          </div>
-          <div style={{ marginTop: 5, fontSize: "12px", textAlign: "center" }}>
             <strong>CO₂ (lb/kWh)</strong>
+          </div>
+          <div
+            style={{
+              fontSize: "12px",
+              textAlign: "center",
+              marginTop: "5px", // Reduced margin between bar and text
+            }}
+          >
+            <small>Dark = High CO₂ intensity, Light = Low</small>
           </div>
         </div>
       </div>
