@@ -104,5 +104,27 @@ tracker.stop()
 
 When you run your training script, a local backend server URL will be printed. Paste that URL into the frontend interface to enable real-time tracking.
 
+## Screenshots:
+### Input links:
+![image](https://github.com/user-attachments/assets/2461b7d9-29b4-4142-8a5c-369cf2ebd4eb)
+
+### Comparision of RL vs Non-Rl Pipelien Energy Consumption
+![image](https://github.com/user-attachments/assets/7b5a346a-54fc-464d-b115-b55fe6495aee)
+
+### Alternate Hardware Selection:
+![image](https://github.com/user-attachments/assets/2d108368-a92b-436e-87e6-91904ae88120)
+
+### BLEU Score 
+
+![Screenshot From 2025-05-01 05-11-05](https://github.com/user-attachments/assets/05b87fd1-3cae-42b2-b00c-619cdee47bee)
+
+
+### India Map CO2 Intensity
+![image](https://github.com/user-attachments/assets/db6fc214-623a-46f8-966c-8e6faf969493)
+
+
+
+
+
 
 
