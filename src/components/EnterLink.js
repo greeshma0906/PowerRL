@@ -424,27 +424,30 @@ function EnterLink() {
             )}
           </div>
         </div>
-          <div className="bleu-graph-box">
-            {rlbleuData && (
-              <ModelEmissions
-                chartData={rlbleuData}
-                title="RL Interval Emissions (kWH)"
-                isEpochData={false}
-              />
-            )}
-          </div>  
-      </div>
-
-      {hardwareData.length > 0 && (
-        <div className="hardware-section">
-          <h3>Hardware Details</h3>
-          <HardwareSection
-            initialHardware={hardwareData}
-            averageEnergy={averageEnergy}
-            setAdjustedEnergy={setAdjustedEnergy} // <-- this line is needed
-          />
         </div>
-      )}
+        <div className="hardware-bleu-wrapper">
+  {hardwareData.length > 0 && (
+    <div className="hardware-section">
+      <h3>Hardware Details</h3>
+      <HardwareSection
+        initialHardware={hardwareData}
+        averageEnergy={averageEnergy}
+        setAdjustedEnergy={setAdjustedEnergy}
+      />
+    </div>
+  )}
+
+  <div className="bleu-graph-box">
+    {rlbleuData && (
+      <ModelEmissions
+        chartData={rlbleuData}
+        title="RL Interval Emissions (kWH)"
+        isEpochData={false}
+      />
+    )}
+  </div>
+</div>
+
 
 
       <div className="map-section">
