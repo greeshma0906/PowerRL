@@ -41,6 +41,11 @@ function ModelEmissions({ chartData, title, isEpochData }) {
       },
       y: {
         type: 'linear',
+        ticks: {
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
+        },
         title: { display: true, text: 'Energy(kWH)' },
       },
     },
