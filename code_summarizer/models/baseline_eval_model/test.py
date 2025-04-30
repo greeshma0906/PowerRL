@@ -46,7 +46,7 @@ def decode_indices(indices_batch, vocab_path):
     return decoded_sentences
 
 def log_bleu_to_logging_server(bleu_score):
-    url = 'http://127.0.0.1:5000/log_bleu_rl'
+    url = 'http://127.0.0.1:5001/log_bleu_rl'
     data = {'bleu_score': bleu_score}
     try:
         response = requests.post(url, json=data)
@@ -74,6 +74,7 @@ def evaluate_model(model, dataloader, device, vocab_path):
                 ref = decode_indices([trg[i].tolist()], vocab_path)[0]
 
                 bleu = compute_bleu(ref.split(), pred.split())
+                bleu=bleu*10000
                 bleu_scores.append(bleu)
                 log_bleu_to_logging_server(bleu)
 

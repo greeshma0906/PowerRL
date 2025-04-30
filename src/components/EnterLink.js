@@ -441,7 +441,7 @@ function EnterLink() {
     {rlbleuData && (
       <ModelEmissions
         chartData={rlbleuData}
-        title="RL Interval Emissions (kWH)"
+        title="Bleu Score" 
         isEpochData={false}
       />
     )}

@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     
     #baseline_model.load_state_dict(torch.load("path/to/baseline_model.pth", map_location=device))
-    deep_rl_model.load_state_dict(torch.load("models/checkpoints/actor_model.pth", map_location=device))
+    deep_rl_model.load_state_dict(torch.load("checkpoints/final_actor.pth", map_location=device))
 
     # Evaluate
     #baseline_results = evaluate_model(baseline_model, test_dataloader, tokenizer, device)
