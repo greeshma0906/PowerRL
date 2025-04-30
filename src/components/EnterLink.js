@@ -428,7 +428,7 @@ function EnterLink() {
         <div className="hardware-bleu-wrapper">
   {hardwareData.length > 0 && (
     <div className="hardware-section">
-      <h3>Hardware Details</h3>
+     
       <HardwareSection
         initialHardware={hardwareData}
         averageEnergy={averageEnergy}

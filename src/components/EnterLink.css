@@ -137,14 +137,16 @@
   padding: 1rem;
   text-align: center;
   margin-top: 20px;
-  transform: scale(1.0);
-  max-width: 800px; /* Optional: adjust the max-width as needed */
+  margin-left: -10px;
+  transform: scale(1.9);
+  max-width: 1500px; /* Optional: adjust the max-width as needed */
   margin: 20px; /* Adds spacing around the section */
 }
+
 .bleu-graph-box {
   margin-bottom: 25px;
   margin-right:100px;
-  margin-left: 300px;
+  margin-left: 475px;
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 12px;

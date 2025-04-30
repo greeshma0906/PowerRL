@@ -163,7 +163,7 @@ function HardwareSection({
   }, [averageEnergy, selectedHardware, efficiencyData]);
 
   return (
-    <div className="hardware-section">
+    <div className="hardware-section1">
       <h3>Your Hardware</h3>
 
       <div className="hardware-list">
